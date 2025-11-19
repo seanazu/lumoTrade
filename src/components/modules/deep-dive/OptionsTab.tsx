@@ -1,13 +1,13 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { GlassCard } from "@/components/design-system/organisms/GlassCard";
 
 interface OptionsTabProps {
   ticker: string;
 }
 
-const OptionsTab: React.FC<OptionsTabProps> = ({ ticker }) => {
+const OptionsTab: FC<OptionsTabProps> = ({ ticker }) => {
   // Mock options data
   const optionsData = {
     putCallRatio: 0.85,

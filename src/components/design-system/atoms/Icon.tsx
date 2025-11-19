@@ -1,14 +1,14 @@
-import * as React from "react";
+import { forwardRef, type HTMLAttributes } from "react";
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface IconProps extends HTMLAttributes<HTMLDivElement> {
   icon: LucideIcon;
   size?: number;
   glow?: boolean;
 }
 
-const Icon = React.forwardRef<HTMLDivElement, IconProps>(
+const Icon = forwardRef<HTMLDivElement, IconProps>(
   ({ icon: IconComponent, size = 20, glow, className, ...props }, ref) => {
     return (
       <div

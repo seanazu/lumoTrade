@@ -1,28 +1,41 @@
 "use client";
 
-import * as React from "react";
+import { useState, useEffect, type ReactNode, type FC } from "react";
 import { TopBar } from "./TopBar";
 import { Sidebar } from "./Sidebar";
 
 export interface AppShellProps {
-  topBarContent?: React.ReactNode;
-  sidebarContent?: React.ReactNode;
+  topBarContent?: ReactNode;
+  sidebarContent?: ReactNode;
   alertCount?: number;
   userEmail?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const AppShell: React.FC<AppShellProps> = ({
+const AppShell: FC<AppShellProps> = ({
   topBarContent,
   sidebarContent,
   alertCount,
   userEmail,
   children,
 }) => {
-  const [sidebarOpen, setSidebarOpen] = React.useState(false);
+  // Open sidebar by default on desktop if there's content
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024 && sidebarContent) {
+        setSidebarOpen(true);
+      }
+    };
+    
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [sidebarContent]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-bg-primary">
+    <div className="min-h-screen flex flex-col bg-background">
       <TopBar
         onMenuClick={() => setSidebarOpen(!sidebarOpen)}
         alertCount={alertCount}
@@ -32,12 +45,14 @@ const AppShell: React.FC<AppShellProps> = ({
       </TopBar>
 
       <div className="flex flex-1 relative">
-        <Sidebar
-          isOpen={sidebarOpen}
-          onClose={() => setSidebarOpen(false)}
-        >
-          {sidebarContent}
-        </Sidebar>
+        {sidebarContent && (
+          <Sidebar
+            isOpen={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+          >
+            {sidebarContent}
+          </Sidebar>
+        )}
 
         <main className="flex-1 overflow-auto">
           {children}

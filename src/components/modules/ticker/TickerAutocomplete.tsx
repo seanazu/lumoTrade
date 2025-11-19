@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { TickerSearchResult } from "@/types/ticker";
 import { GlassCard } from "@/components/design-system/organisms/GlassCard";
 import { cn } from "@/lib/utils";
@@ -11,7 +11,7 @@ interface TickerAutocompleteProps {
   className?: string;
 }
 
-const TickerAutocomplete: React.FC<TickerAutocompleteProps> = ({
+const TickerAutocomplete: FC<TickerAutocompleteProps> = ({
   results,
   onSelect,
   className,

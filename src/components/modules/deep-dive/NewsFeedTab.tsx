@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { GlassCard } from "@/components/design-system/organisms/GlassCard";
 import { Badge } from "@/components/design-system/atoms/Badge";
 import { SentimentChip } from "@/components/design-system/molecules/SentimentChip";
@@ -11,7 +11,7 @@ interface NewsFeedTabProps {
   news: NewsItem[];
 }
 
-const NewsFeedTab: React.FC<NewsFeedTabProps> = ({ news }) => {
+const NewsFeedTab: FC<NewsFeedTabProps> = ({ news }) => {
   return (
     <GlassCard>
       <h4 className="text-lg font-bold mb-4">Recent News</h4>

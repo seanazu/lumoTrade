@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { X } from "lucide-react";
 import { useTickerStore } from "@/lib/zustand/tickerStore";
 
@@ -10,7 +10,7 @@ interface WatchlistItemProps {
   onRemove: () => void;
 }
 
-const WatchlistItem: React.FC<WatchlistItemProps> = ({
+const WatchlistItem: FC<WatchlistItemProps> = ({
   ticker,
   notes,
   onRemove,

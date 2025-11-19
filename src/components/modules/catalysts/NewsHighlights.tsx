@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { motion } from "framer-motion";
 import { NewsCard } from "@/components/design-system/molecules/NewsCard";
 import { NewsItem } from "@/resources/mock-data/news";
@@ -11,7 +11,7 @@ interface NewsHighlightsProps {
   onNewsClick?: (index: number) => void;
 }
 
-const NewsHighlights: React.FC<NewsHighlightsProps> = ({ news, onNewsClick }) => {
+const NewsHighlights: FC<NewsHighlightsProps> = ({ news, onNewsClick }) => {
   return (
     <motion.div
       initial="hidden"

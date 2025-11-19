@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState, type FC } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/design-system/atoms/Input";
 import { Button } from "@/components/design-system/atoms/Button";
@@ -9,11 +9,11 @@ import { GlassCard } from "@/components/design-system/organisms/GlassCard";
 import { useAuth } from "@/hooks/useAuth";
 import { isValidEmail } from "@/utils/validation/forms";
 
-const LoginForm: React.FC = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [error, setError] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
+const LoginForm: FC = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { signIn } = useAuth();
   const router = useRouter();

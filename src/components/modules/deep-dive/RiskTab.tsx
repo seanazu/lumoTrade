@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/design-system/organisms/GlassCard";
 
@@ -8,7 +8,7 @@ interface RiskTabProps {
   ticker: string;
 }
 
-const RiskTab: React.FC<RiskTabProps> = ({ ticker }) => {
+const RiskTab: FC<RiskTabProps> = ({ ticker }) => {
   // Mock risk data
   const riskData = {
     gapRiskScore: 68,

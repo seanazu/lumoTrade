@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { motion } from "framer-motion";
 import { Ticker } from "@/types/ticker";
 import { Sentiment } from "@/types/trade";
@@ -16,7 +16,7 @@ interface TickerHeaderProps {
   className?: string;
 }
 
-const TickerHeader: React.FC<TickerHeaderProps> = ({
+const TickerHeader: FC<TickerHeaderProps> = ({
   ticker,
   sentiment,
   className,

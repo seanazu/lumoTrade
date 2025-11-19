@@ -1,11 +1,11 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { WatchlistItem } from "./WatchlistItem";
 import { useWatchlist } from "@/hooks/useWatchlist";
 import { Skeleton } from "@/components/design-system/atoms/Skeleton";
 
-const WatchlistPanel: React.FC = () => {
+const WatchlistPanel: FC = () => {
   const { watchlist, isLoading, removeFromWatchlist } = useWatchlist();
 
   if (isLoading) {

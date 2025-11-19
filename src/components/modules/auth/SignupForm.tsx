@@ -1,20 +1,24 @@
 "use client";
 
-import * as React from "react";
+import { useState, type FC } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/design-system/atoms/Input";
 import { Button } from "@/components/design-system/atoms/Button";
 import { Label } from "@/components/design-system/atoms/Label";
 import { GlassCard } from "@/components/design-system/organisms/GlassCard";
 import { useAuth } from "@/hooks/useAuth";
-import { isValidEmail, isValidPassword, getPasswordStrength } from "@/utils/validation/forms";
+import {
+  isValidEmail,
+  isValidPassword,
+  getPasswordStrength,
+} from "@/utils/validation/forms";
 
-const SignupForm: React.FC = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
-  const [error, setError] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
+const SignupForm: FC = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { signUp } = useAuth();
   const router = useRouter();
@@ -139,4 +143,3 @@ const SignupForm: React.FC = () => {
 };
 
 export { SignupForm };
-

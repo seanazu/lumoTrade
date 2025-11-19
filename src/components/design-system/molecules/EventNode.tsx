@@ -1,11 +1,11 @@
-import * as React from "react";
+import { forwardRef, type HTMLAttributes } from "react";
 import { Calendar, DollarSign, Megaphone, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 
 export type EventType = "earnings" | "dividend" | "pr" | "macro";
 
-export interface EventNodeProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface EventNodeProps extends HTMLAttributes<HTMLDivElement> {
   type: EventType;
   label: string;
   date: string;
@@ -20,7 +20,7 @@ const eventIcons = {
   macro: Calendar,
 };
 
-const EventNode = React.forwardRef<HTMLDivElement, EventNodeProps>(
+const EventNode = forwardRef<HTMLDivElement, EventNodeProps>(
   (
     { type, label, date, description, isToday, className, ...props },
     ref

@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState, useMemo, type FC } from "react";
 import { motion } from "framer-motion";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, ReferenceArea } from "recharts";
 import { GlassCard } from "@/components/design-system/organisms/GlassCard";
@@ -33,13 +33,13 @@ const generateChartData = (basePrice: number, days: number = 30) => {
   return data;
 };
 
-const TradeChartPanel: React.FC<TradeChartPanelProps> = ({ ticker, tradePlan }) => {
-  const [timeframe, setTimeframe] = React.useState<ChartTimeframe>("1M");
-  const [selectedIndicators, setSelectedIndicators] = React.useState<string[]>([]);
+const TradeChartPanel: FC<TradeChartPanelProps> = ({ ticker, tradePlan }) => {
+  const [timeframe, setTimeframe] = useState<ChartTimeframe>("1M");
+  const [selectedIndicators, setSelectedIndicators] = useState<string[]>([]);
 
   // Generate mock data based on trade plan
   const currentPrice = tradePlan ? (tradePlan.entry.min + tradePlan.entry.max) / 2 : 100;
-  const chartData = React.useMemo(() => generateChartData(currentPrice, 30), [currentPrice]);
+  const chartData = useMemo(() => generateChartData(currentPrice, 30), [currentPrice]);
 
   return (
     <motion.div

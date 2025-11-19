@@ -1,13 +1,13 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { motion } from "framer-motion";
 
 interface ConfidenceMeterProps {
   value: number; // 0-100
 }
 
-const ConfidenceMeter: React.FC<ConfidenceMeterProps> = ({ value }) => {
+const ConfidenceMeter: FC<ConfidenceMeterProps> = ({ value }) => {
   const getColor = (val: number) => {
     if (val >= 75) return "#4ade80";
     if (val >= 50) return "#00d9ff";

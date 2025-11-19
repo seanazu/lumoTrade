@@ -1,13 +1,13 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { GlassCard } from "@/components/design-system/organisms/GlassCard";
 
 interface FundamentalsTabProps {
   ticker: string;
 }
 
-const FundamentalsTab: React.FC<FundamentalsTabProps> = ({ ticker }) => {
+const FundamentalsTab: FC<FundamentalsTabProps> = ({ ticker }) => {
   // Mock fundamentals data
   const fundamentals = [
     { label: "P/E Ratio", value: "28.5x", sector: "25.3x" },

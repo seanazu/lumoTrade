@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState, useRef, useMemo, type FC } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/design-system/atoms/Input";
 import { searchTickers } from "@/resources/mock-data/tickers";
@@ -12,13 +12,13 @@ interface TickerSearchProps {
   className?: string;
 }
 
-const TickerSearch: React.FC<TickerSearchProps> = ({ className }) => {
-  const [query, setQuery] = React.useState("");
-  const [isOpen, setIsOpen] = React.useState(false);
+const TickerSearch: FC<TickerSearchProps> = ({ className }) => {
+  const [query, setQuery] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
   const { setCurrentTicker, addRecentTicker } = useTickerStore();
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const results = React.useMemo(() => searchTickers(query), [query]);
+  const results = useMemo(() => searchTickers(query), [query]);
 
   const handleSelect = (ticker: string) => {
     setCurrentTicker(ticker);

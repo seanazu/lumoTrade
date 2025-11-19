@@ -1,10 +1,10 @@
-import * as React from "react";
+import { forwardRef, type HTMLAttributes } from "react";
 import { ExternalLink } from "lucide-react";
 import { Badge } from "../atoms/Badge";
 import { SentimentChip, Sentiment } from "./SentimentChip";
 import { cn } from "@/lib/utils";
 
-export interface NewsCardProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface NewsCardProps extends HTMLAttributes<HTMLDivElement> {
   source: string;
   headline: string;
   sentiment?: Sentiment;
@@ -13,7 +13,7 @@ export interface NewsCardProps extends React.HTMLAttributes<HTMLDivElement> {
   onClick?: () => void;
 }
 
-const NewsCard = React.forwardRef<HTMLDivElement, NewsCardProps>(
+const NewsCard = forwardRef<HTMLDivElement, NewsCardProps>(
   (
     { source, headline, sentiment, tag, time, onClick, className, ...props },
     ref

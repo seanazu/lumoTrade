@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { Pill } from "@/components/design-system/atoms/Pill";
 import { ChartTimeframe } from "@/types/chart";
 import { CHART_TIMEFRAMES } from "@/resources/constants/timeframes";
@@ -13,7 +13,7 @@ interface ChartControlsProps {
   onIndicatorsChange: (indicators: string[]) => void;
 }
 
-const ChartControls: React.FC<ChartControlsProps> = ({
+const ChartControls: FC<ChartControlsProps> = ({
   timeframe,
   onTimeframeChange,
   selectedIndicators,

@@ -1,63 +1,111 @@
 /**
  * InstantDB Schema Definition
- * 
- * This file documents the schema structure for InstantDB.
- * Actual schema is defined in the InstantDB dashboard.
+ * This schema defines the database structure for LumoTrade
  */
 
-export const instantDBSchema = {
-  users: {
+export const instantSchema = {
+  // User Profiles
+  profiles: {
     fields: {
-      id: 'string',
-      email: 'string',
-      createdAt: 'timestamp',
-    },
-  },
-  watchlists: {
-    fields: {
-      id: 'string',
-      userId: 'string', // Foreign key to users
-      ticker: 'string',
-      addedAt: 'timestamp',
-      notes: 'string?', // Optional
-    },
-    indexes: ['userId', 'ticker'],
-  },
-  tradeHistory: {
-    fields: {
-      id: 'string',
       userId: 'string',
-      ticker: 'string',
-      type: "'entry' | 'exit' | 'note'",
-      price: 'number',
-      timestamp: 'timestamp',
-      setup: 'string?',
-      outcome: 'string?',
+      displayName: 'string',
+      bio: 'string',
+      avatar: 'string',
+      totalTrades: 'number',
+      winRate: 'number',
+      profitLoss: 'number',
+      joinedAt: 'number',
+      verified: 'boolean',
     },
-    indexes: ['userId', 'ticker', 'timestamp'],
   },
-  alerts: {
-    fields: {
-      id: 'string',
-      userId: 'string',
-      ticker: 'string',
-      type: "'price' | 'catalyst' | 'custom'",
-      condition: 'string',
-      target: 'number',
-      isActive: 'boolean',
-      createdAt: 'timestamp',
-    },
-    indexes: ['userId', 'isActive'],
-  },
-  preferences: {
-    fields: {
-      id: 'string',
-      userId: 'string',
-      theme: 'string',
-      defaultTimeframe: 'string',
-      maxRiskPerTrade: 'number',
-    },
-    indexes: ['userId'],
-  },
-} as const;
 
+  // Follow relationships
+  follows: {
+    fields: {
+      followerId: 'string', // User who is following
+      followingId: 'string', // User being followed
+      createdAt: 'number',
+    },
+  },
+
+  // Trade posts/ideas
+  posts: {
+    fields: {
+      authorId: 'string',
+      symbol: 'string',
+      content: 'string',
+      type: 'string', // 'idea', 'analysis', 'result'
+      entry: 'number',
+      target: 'number',
+      stopLoss: 'number',
+      status: 'string', // 'active', 'closed', 'cancelled'
+      result: 'number', // P&L
+      likes: 'number',
+      createdAt: 'number',
+      updatedAt: 'number',
+    },
+  },
+
+  // Comments on posts
+  comments: {
+    fields: {
+      postId: 'string',
+      authorId: 'string',
+      content: 'string',
+      likes: 'number',
+      createdAt: 'number',
+    },
+  },
+
+  // Likes/Upvotes
+  likes: {
+    fields: {
+      userId: 'string',
+      targetId: 'string', // postId or commentId
+      targetType: 'string', // 'post' or 'comment'
+      createdAt: 'number',
+    },
+  },
+
+  // Chat messages (for AI chat history)
+  chatMessages: {
+    fields: {
+      userId: 'string',
+      role: 'string', // 'user' or 'assistant'
+      content: 'string',
+      createdAt: 'number',
+    },
+  },
+
+  // User watchlists (already handled by zustand, but for sync)
+  watchlistItems: {
+    fields: {
+      userId: 'string',
+      symbol: 'string',
+      folderId: 'string',
+      folderName: 'string',
+      colorFlag: 'string',
+      notes: 'string',
+      addedAt: 'number',
+    },
+  },
+
+  // Performance tracking
+  trades: {
+    fields: {
+      userId: 'string',
+      symbol: 'string',
+      type: 'string', // 'long' or 'short'
+      entry: 'number',
+      exit: 'number',
+      shares: 'number',
+      profitLoss: 'number',
+      profitLossPercent: 'number',
+      entryDate: 'number',
+      exitDate: 'number',
+      status: 'string', // 'open' or 'closed'
+      paperTrade: 'boolean',
+      notes: 'string',
+    },
+  },
+};

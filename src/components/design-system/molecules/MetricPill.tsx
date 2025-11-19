@@ -1,14 +1,14 @@
-import * as React from "react";
+import { forwardRef, type HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
-export interface MetricPillProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface MetricPillProps extends HTMLAttributes<HTMLDivElement> {
   label: string;
   value: string | number;
   change?: number;
   sparklineData?: number[];
 }
 
-const MetricPill = React.forwardRef<HTMLDivElement, MetricPillProps>(
+const MetricPill = forwardRef<HTMLDivElement, MetricPillProps>(
   ({ label, value, change, sparklineData, className, ...props }, ref) => {
     const isPositive = change && change > 0;
     const isNegative = change && change < 0;

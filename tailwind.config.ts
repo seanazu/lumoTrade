@@ -13,31 +13,32 @@ const config: Config = {
         // Modern dark mode colors
         dark: {
           bg: {
-            primary: '#0a0a0f',
-            secondary: '#14141f',
-            tertiary: '#1a1a2e',
+            primary: '#111111',
+            secondary: '#1a1a1a',
+            tertiary: '#242424',
           },
           accent: {
-            primary: '#6366f1',    // Indigo
-            secondary: '#8b5cf6',  // Purple
-            success: '#10b981',    // Emerald
-            warning: '#f59e0b',    // Amber
-            danger: '#ef4444',     // Red
+            primary: '#4ecdc4',    // Turquoise
+            secondary: '#1a535c',  // Dark teal
+            success: '#4ecdc4',    // Turquoise
+            warning: '#ffe66d',    // Yellow
+            danger: '#ff6b6b',     // Coral
           },
         },
-        // Lemon fresh light mode colors
+        // Vibrant modern palette
         light: {
           bg: {
-            primary: '#fffef7',     // Warm white
-            secondary: '#fffce8',   // Light lemon
-            tertiary: '#fff9d0',    // Soft lemon
+            primary: '#f7fff7',     // Off-white cream
+            secondary: '#ffffff',   // Pure white
+            tertiary: '#e8f7f5',    // Very light teal tint
           },
           accent: {
-            primary: '#eab308',     // Bright yellow
-            secondary: '#f59e0b',   // Amber
-            success: '#22c55e',     // Green
-            warning: '#f97316',     // Orange
-            danger: '#dc2626',      // Red
+            primary: '#4ecdc4',     // Bright turquoise
+            secondary: '#1a535c',   // Dark teal
+            highlight: '#ffe66d',   // Sunny yellow
+            success: '#4ecdc4',     // Turquoise for gains
+            warning: '#ffe66d',     // Yellow for alerts
+            danger: '#ff6b6b',      // Coral red for losses
           },
         },
         border: {
@@ -83,6 +84,12 @@ const config: Config = {
       },
       backdropBlur: {
         xs: '2px',
+      },
+      boxShadow: {
+        'glass-light': '0 0 0 1px rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        'glass-dark': '0 0 0 1px rgba(255, 255, 255, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.5)',
+        'soft': '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
+        'glow': '0 0 0 1px rgba(78, 205, 196, 0.2)',
       },
     },
   },

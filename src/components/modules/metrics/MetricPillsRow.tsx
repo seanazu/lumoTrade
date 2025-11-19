@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { motion } from "framer-motion";
 import { MetricPill } from "@/components/design-system/molecules/MetricPill";
 import { MetricData } from "@/resources/mock-data/metrics";
@@ -11,7 +11,7 @@ interface MetricPillsRowProps {
   metrics: MetricData[];
 }
 
-const MetricPillsRow: React.FC<MetricPillsRowProps> = ({ metrics }) => {
+const MetricPillsRow: FC<MetricPillsRowProps> = ({ metrics }) => {
   return (
     <motion.div
       initial="hidden"

@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 
 interface ChartTooltipProps {
   active?: boolean;
@@ -8,7 +8,7 @@ interface ChartTooltipProps {
   label?: string;
 }
 
-const ChartTooltip: React.FC<ChartTooltipProps> = ({ active, payload, label }) => {
+const ChartTooltip: FC<ChartTooltipProps> = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <div className="glass-card p-3">

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { type FC } from "react";
 import { AlertCircle } from "lucide-react";
 import { Button } from "../atoms/Button";
 import { GlassCard } from "./GlassCard";
@@ -9,7 +9,7 @@ export interface ErrorStateProps {
   onRetry?: () => void;
 }
 
-const ErrorState: React.FC<ErrorStateProps> = ({
+const ErrorState: FC<ErrorStateProps> = ({
   title = "Something went wrong",
   message = "We couldn't load the data. Please try again.",
   onRetry,

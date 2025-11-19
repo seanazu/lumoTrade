@@ -1,4 +1,4 @@
-import * as React from "react";
+import { type FC } from "react";
 import { Pill } from "../atoms/Pill";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +16,7 @@ const timeframes: { value: Timeframe; label: string }[] = [
   { value: "position", label: "Position" },
 ];
 
-const TimeframeToggle: React.FC<TimeframeToggleProps> = ({
+const TimeframeToggle: FC<TimeframeToggleProps> = ({
   value,
   onChange,
   className,

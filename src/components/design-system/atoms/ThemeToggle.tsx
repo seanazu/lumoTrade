@@ -1,15 +1,15 @@
 "use client";
 
-import * as React from "react";
+import { useState, useEffect, type FC } from "react";
 import { Moon, Sun } from "lucide-react";
 import { useThemeStore } from "@/lib/zustand/themeStore";
 import { Button } from "./Button";
 
-const ThemeToggle: React.FC = () => {
+const ThemeToggle: FC = () => {
   const { theme, toggleTheme } = useThemeStore();
-  const [mounted, setMounted] = React.useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true);
     // Apply theme to document
     if (theme === "dark") {

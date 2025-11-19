@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
 import { AppShell } from "@/components/design-system/organisms/AppShell";
@@ -8,6 +7,8 @@ import { TickerSearch } from "@/components/modules/ticker/TickerSearch";
 import { GlassCard } from "@/components/design-system/organisms/GlassCard";
 import { Badge } from "@/components/design-system/atoms/Badge";
 import { Button } from "@/components/design-system/atoms/Button";
+import { Watchlist } from "@/components/modules/watchlist/Watchlist";
+import { AddToWatchlistButton } from "@/components/modules/watchlist/AddToWatchlistButton";
 import { 
   Brain, 
   TrendingUp, 
@@ -101,10 +102,19 @@ function StockAnalyzer() {
             </span>
           </div>
         </div>
-        <Button size="lg" className="gap-2">
-          <Bell className="h-5 w-5" />
-          Set Alert
-        </Button>
+        <div className="flex gap-3">
+          <AddToWatchlistButton
+            symbol={ticker.symbol}
+            name={ticker.name}
+            price={ticker.price}
+            change={ticker.change}
+            changePercent={ticker.changePercent}
+          />
+          <Button size="lg" className="gap-2">
+            <Bell className="h-5 w-5" />
+            Set Alert
+          </Button>
+        </div>
       </motion.div>
 
       {/* 1. Fundamental Overview */}
@@ -341,18 +351,32 @@ export default function AnalyzerPage() {
       <AppShell
         topBarContent={
           <div className="flex items-center gap-6 flex-1 max-w-4xl">
-            <Link href="/" className="text-sm font-semibold hover:text-primary transition-colors">
-              Market
-            </Link>
-            <Link href="/analyzer" className="text-sm font-semibold text-primary">
-              Stock Analyzer
-            </Link>
+            <motion.nav
+              className="flex items-center gap-6"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <Link
+                href="/"
+                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              >
+                Market
+              </Link>
+              <Link
+                href="/analyzer"
+                className="flex items-center gap-2 text-sm font-semibold text-primary border-b-2 border-primary pb-0.5"
+              >
+                <Brain className="h-4 w-4" />
+                Stock Analyzer
+              </Link>
+            </motion.nav>
             <div className="flex-1">
               <TickerSearch />
             </div>
           </div>
         }
-        sidebarContent={null}
+        sidebarContent={<Watchlist />}
         alertCount={0}
         userEmail="user@example.com"
       >

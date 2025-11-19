@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import {
   TabNavigation,
   TabsList,
@@ -18,7 +18,7 @@ interface DeepDiveTabsProps {
   news: NewsItem[];
 }
 
-const DeepDiveTabs: React.FC<DeepDiveTabsProps> = ({ ticker, news }) => {
+const DeepDiveTabs: FC<DeepDiveTabsProps> = ({ ticker, news }) => {
   return (
     <TabNavigation defaultValue="fundamentals" className="w-full">
       <TabsList className="w-full grid grid-cols-4">

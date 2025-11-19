@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { Star } from "lucide-react";
 import { Button } from "@/components/design-system/atoms/Button";
 import { useWatchlist } from "@/hooks/useWatchlist";
@@ -11,7 +11,7 @@ interface AddToWatchlistProps {
   className?: string;
 }
 
-const AddToWatchlist: React.FC<AddToWatchlistProps> = ({
+const AddToWatchlist: FC<AddToWatchlistProps> = ({
   ticker,
   className,
 }) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { ArrowUpCircle, Target, StopCircle } from "lucide-react";
 import { TradePlan } from "@/types/trade";
 import { formatPrice } from "@/utils/formatting/numbers";
@@ -9,7 +9,7 @@ interface LevelsDisplayProps {
   tradePlan: TradePlan;
 }
 
-const LevelsDisplay: React.FC<LevelsDisplayProps> = ({ tradePlan }) => {
+const LevelsDisplay: FC<LevelsDisplayProps> = ({ tradePlan }) => {
   return (
     <div className="space-y-3">
       {/* Entry */}

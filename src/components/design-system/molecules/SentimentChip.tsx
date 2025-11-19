@@ -1,4 +1,4 @@
-import * as React from "react";
+import { type FC } from "react";
 import { TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { Badge } from "../atoms/Badge";
 
@@ -27,7 +27,7 @@ const sentimentConfig = {
   },
 };
 
-const SentimentChip: React.FC<SentimentChipProps> = ({
+const SentimentChip: FC<SentimentChipProps> = ({
   sentiment,
   className,
 }) => {

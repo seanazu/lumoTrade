@@ -1,31 +1,25 @@
 "use client";
 
-import * as React from "react";
-import { X, Star, Scan, Clock } from "lucide-react";
+import { type ReactNode, type FC } from "react";
+import { motion } from "framer-motion";
+import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
-type TabValue = "watchlist" | "scanners" | "recent";
-
-const tabs: { value: TabValue; label: string; icon: React.ElementType }[] = [
-  { value: "watchlist", label: "Watchlist", icon: Star },
-  { value: "scanners", label: "Scanners", icon: Scan },
-  { value: "recent", label: "Recent", icon: Clock },
-];
-
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, children }) => {
-  const [activeTab, setActiveTab] = React.useState<TabValue>("watchlist");
-
+const Sidebar: FC<SidebarProps> = ({ isOpen, onClose, children }) => {
   return (
     <>
       {/* Overlay for mobile */}
       {isOpen && (
-        <div
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={onClose}
         />
@@ -34,55 +28,30 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, children }) => {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed left-0 top-16 bottom-0 z-40 w-80 bg-bg-primary border-r border-white/10 transition-transform duration-300 lg:sticky lg:translate-x-0",
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          "fixed left-0 top-16 bottom-0 z-40 w-80 bg-background border-r border-border transition-transform duration-300",
+          "lg:relative lg:top-0 lg:translate-x-0",
+          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         <div className="flex flex-col h-full">
-          {/* Header with tabs */}
-          <div className="border-b border-white/10 p-4">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-lg">Navigation</h2>
-              <button
-                onClick={onClose}
-                className="lg:hidden p-2 hover:bg-accent-cyan/10 rounded-lg transition-colors"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            {/* Tabs */}
-            <div className="flex gap-2">
-              {tabs.map((tab) => {
-                const IconComponent = tab.icon;
-                return (
-                  <button
-                    key={tab.value}
-                    onClick={() => setActiveTab(tab.value)}
-                    className={cn(
-                      "flex-1 flex flex-col items-center gap-1 py-2 rounded-lg transition-colors",
-                      activeTab === tab.value
-                        ? "bg-accent-cyan/20 text-accent-cyan"
-                        : "text-muted-foreground hover:bg-accent-cyan/10"
-                    )}
-                  >
-                    <IconComponent className="h-5 w-5" />
-                    <span className="text-xs">{tab.label}</span>
-                  </button>
-                );
-              })}
-            </div>
+          {/* Mobile close button */}
+          <div className="lg:hidden p-4 border-b border-border flex items-center justify-between">
+            <h2 className="font-semibold">Menu</h2>
+            <motion.button
+              onClick={onClose}
+              className="p-2 hover:bg-primary/10 rounded-lg transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <X className="h-5 w-5" />
+            </motion.button>
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-hidden">
             {children || (
-              <div className="text-center text-muted-foreground py-8">
-                <p className="text-sm">
-                  {activeTab === "watchlist" && "No tickers in watchlist"}
-                  {activeTab === "scanners" && "No active scanners"}
-                  {activeTab === "recent" && "No recent searches"}
-                </p>
+              <div className="flex items-center justify-center h-full text-center text-muted-foreground p-4">
+                <p className="text-sm">No content</p>
               </div>
             )}
           </div>

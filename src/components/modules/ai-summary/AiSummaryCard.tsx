@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { motion } from "framer-motion";
 import { Brain, TrendingUp, AlertTriangle } from "lucide-react";
 import { GlassCard } from "@/components/design-system/organisms/GlassCard";
@@ -13,7 +13,7 @@ interface AiSummaryCardProps {
   insight: AIInsight;
 }
 
-const AiSummaryCard: React.FC<AiSummaryCardProps> = ({ insight }) => {
+const AiSummaryCard: FC<AiSummaryCardProps> = ({ insight }) => {
   return (
     <motion.div
       initial="hidden"

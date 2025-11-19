@@ -1,14 +1,14 @@
-import * as React from "react";
+import { forwardRef, type HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
 export interface RiskRewardBarProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+  extends HTMLAttributes<HTMLDivElement> {
   ratio: number;
   risk: number;
   reward: number;
 }
 
-const RiskRewardBar = React.forwardRef<HTMLDivElement, RiskRewardBarProps>(
+const RiskRewardBar = forwardRef<HTMLDivElement, RiskRewardBarProps>(
   ({ ratio, risk, reward, className, ...props }, ref) => {
     const riskPercent = (risk / (risk + reward)) * 100;
     const rewardPercent = (reward / (risk + reward)) * 100;

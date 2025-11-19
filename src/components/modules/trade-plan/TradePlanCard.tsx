@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { motion } from "framer-motion";
 import { TradePlan } from "@/types/trade";
 import { GlassCard } from "@/components/design-system/organisms/GlassCard";
@@ -15,7 +15,7 @@ interface TradePlanCardProps {
   tradePlan: TradePlan;
 }
 
-const TradePlanCard: React.FC<TradePlanCardProps> = ({ tradePlan }) => {
+const TradePlanCard: FC<TradePlanCardProps> = ({ tradePlan }) => {
   const entryMid = (tradePlan.entry.min + tradePlan.entry.max) / 2;
   const risk = Math.abs(entryMid - tradePlan.stop);
   const reward = Math.abs(tradePlan.target[0] - entryMid);

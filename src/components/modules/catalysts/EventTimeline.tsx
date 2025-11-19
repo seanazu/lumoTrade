@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { type FC } from "react";
 import { motion } from "framer-motion";
 import { EventNode } from "@/components/design-system/molecules/EventNode";
 import { Catalyst } from "@/resources/mock-data/catalysts";
@@ -10,7 +10,7 @@ interface EventTimelineProps {
   catalysts: Catalyst[];
 }
 
-const EventTimeline: React.FC<EventTimelineProps> = ({ catalysts }) => {
+const EventTimeline: FC<EventTimelineProps> = ({ catalysts }) => {
   return (
     <div className="relative">
       {/* Timeline Line */}
