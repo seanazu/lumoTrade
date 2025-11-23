@@ -18,12 +18,14 @@
 ## ✨ Features
 
 ### 🤖 AI-Powered Intelligence
+
 - **Real-time AI Chat Assistant** - Ask anything about stocks, get instant analysis
 - **Pattern Recognition** - Automatically detects chart patterns (double tops/bottoms, breakouts)
 - **Sentiment Analysis** - AI-powered market sentiment from news and social data
 - **Predictive Analytics** - Machine learning models for price predictions
 
 ### 📊 Advanced Trading Tools
+
 - **Live Price Streaming** - Real-time WebSocket updates with flash animations
 - **TradingView-Style Watchlist** - Organize stocks with folders and color flags
 - **Strategy Backtesting** - Test your strategies on historical data
@@ -31,12 +33,14 @@
 - **Risk Management** - Calculate position sizes, stop losses, and risk/reward ratios
 
 ### 🌐 Social & Community
+
 - **Trading Feed** - Share ideas, follow traders, like and comment on posts
 - **Leaderboards** - Compete in trading challenges and win prizes
 - **User Profiles** - Build reputation with verified badges and follower counts
 - **Learning Center** - AI-generated tutorials and expert trading courses
 
 ### 📱 Modern Experience
+
 - **Progressive Web App** - Install on any device, works offline
 - **Dark & Light Themes** - Beautiful dark mode + refreshing "Lemon Fresh" light mode
 - **Mobile Optimized** - Bottom navigation, swipe gestures, pull-to-refresh
@@ -44,6 +48,7 @@
 - **Push Notifications** - Get alerts for price movements, patterns, and news
 
 ### 🔧 Developer Tools
+
 - **Public API** - RESTful endpoints for stock data and AI analysis
 - **WebSocket Streaming** - Real-time price feeds for your applications
 - **Comprehensive Docs** - Full API documentation with code examples
@@ -54,6 +59,7 @@
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js >= 18.18.0
 - npm >= 8.0.0
 
@@ -86,15 +92,19 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## 📸 Screenshots
 
 ### Market Overview Dashboard
+
 Modern, clean interface with live market data and AI predictions.
 
 ### AI Stock Analyzer
+
 Comprehensive analysis with technical indicators, patterns, and AI insights.
 
 ### Performance Dashboard
+
 Track your trading performance with detailed analytics and equity curves.
 
 ### Social Trading Feed
+
 Connect with other traders, share ideas, and learn from the community.
 
 ---
@@ -108,7 +118,7 @@ Connect with other traders, share ideas, and learn from the community.
 - **State Management**: Zustand with persistence
 - **Data Fetching**: TanStack Query
 - **Database**: InstantDB (real-time sync)
-- **AI**: OpenAI GPT-4 + Vercel AI SDK
+- **AI**: OpenAI ChatGPT-5.1 + Vercel AI SDK
 - **Charts**: Recharts
 - **Email**: Resend + React Email
 - **PWA**: next-pwa
@@ -118,6 +128,7 @@ Connect with other traders, share ideas, and learn from the community.
 ## 🔌 API
 
 ### Authentication
+
 All API requests require an API key in the header:
 
 ```bash
@@ -128,6 +139,7 @@ curl -H "x-api-key: your_api_key" \
 ### Endpoints
 
 #### Get Stock Data
+
 ```
 GET /api/v1/ticker/:symbol
 ```
@@ -135,6 +147,7 @@ GET /api/v1/ticker/:symbol
 Returns real-time price, volume, market cap, and key metrics.
 
 #### Get AI Analysis
+
 ```
 GET /api/v1/analysis/:symbol
 ```
@@ -142,6 +155,7 @@ GET /api/v1/analysis/:symbol
 Returns AI-powered sentiment analysis, price targets, and technical insights.
 
 ### Rate Limits
+
 - **Free Tier**: 100 requests/hour
 - **Pro Tier**: 1,000 requests/hour
 - **Enterprise**: Unlimited
@@ -197,7 +211,9 @@ vercel
 ```
 
 ### Environment Variables
+
 Set these in your deployment platform:
+
 - `OPENAI_API_KEY`
 - `RESEND_API_KEY`
 - `NEXT_PUBLIC_INSTANT_APP_ID`
@@ -236,7 +252,7 @@ This project is private and proprietary. All rights reserved.
 
 ## 🙏 Acknowledgments
 
-- **OpenAI** for GPT-4 API
+- **OpenAI** for ChatGPT-5.1 API
 - **Vercel** for hosting and AI SDK
 - **InstantDB** for real-time database
 - **shadcn/ui** for beautiful components
