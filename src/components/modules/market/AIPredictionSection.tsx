@@ -3,7 +3,7 @@
 import { type FC } from "react";
 import { motion } from "framer-motion";
 import { Brain } from "lucide-react";
-import { GlassCard } from "@/components/design-system/organisms/GlassCard";
+import { GlassCard } from "@/components/design-system/atoms/GlassCard";
 import { Badge } from "@/components/design-system/atoms/Badge";
 import { MarketPrediction } from "@/resources/mock-data/indexes";
 import { formatPrice } from "@/utils/formatting/numbers";

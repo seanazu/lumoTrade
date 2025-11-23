@@ -1,7 +1,7 @@
 "use client";
 
 import { type FC } from "react";
-import { GlassCard } from "@/components/design-system/organisms/GlassCard";
+import { GlassCard } from "@/components/design-system/atoms/GlassCard";
 import { Badge } from "@/components/design-system/atoms/Badge";
 import { SentimentChip } from "@/components/design-system/molecules/SentimentChip";
 import { NewsItem } from "@/resources/mock-data/news";

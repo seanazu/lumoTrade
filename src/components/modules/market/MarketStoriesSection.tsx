@@ -3,7 +3,7 @@
 import { type FC } from "react";
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
-import { GlassCard } from "@/components/design-system/organisms/GlassCard";
+import { GlassCard } from "@/components/design-system/atoms/GlassCard";
 import { Badge } from "@/components/design-system/atoms/Badge";
 import { MarketStory } from "@/resources/mock-data/indexes";
 

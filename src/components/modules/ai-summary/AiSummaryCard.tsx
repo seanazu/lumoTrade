@@ -3,7 +3,7 @@
 import { type FC } from "react";
 import { motion } from "framer-motion";
 import { Brain, TrendingUp, AlertTriangle } from "lucide-react";
-import { GlassCard } from "@/components/design-system/organisms/GlassCard";
+import { GlassCard } from "@/components/design-system/atoms/GlassCard";
 import { GlowBorder } from "@/components/design-system/atoms/GlowBorder";
 import { AIInsight } from "@/types/trade";
 import { fadeInScale } from "@/utils/animations/variants";

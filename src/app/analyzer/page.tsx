@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
 import { AppShell } from "@/components/design-system/organisms/AppShell";
 import { TickerSearch } from "@/components/modules/ticker/TickerSearch";
-import { GlassCard } from "@/components/design-system/organisms/GlassCard";
+import { GlassCard } from "@/components/design-system/atoms/GlassCard";
 import { Badge } from "@/components/design-system/atoms/Badge";
 import { Button } from "@/components/design-system/atoms/Button";
 import { Watchlist } from "@/components/modules/watchlist/Watchlist";
@@ -24,7 +24,6 @@ import {
 import { useTickerStore } from "@/lib/zustand/tickerStore";
 import { useTickerData } from "@/hooks/useTickerData";
 import { Skeleton } from "@/components/design-system/atoms/Skeleton";
-import { ErrorState } from "@/components/design-system/organisms/ErrorState";
 import { formatPrice, formatPercentage, formatLargeNumber } from "@/utils/formatting/numbers";
 import { motion } from "framer-motion";
 import { fadeInScale, staggerChildren } from "@/utils/animations/variants";
@@ -55,10 +54,13 @@ function StockAnalyzer() {
   if (error) {
     return (
       <div className="container mx-auto p-6">
-        <ErrorState
-          title="Failed to load stock data"
-          message={`Could not find data for ${currentTicker}. Please try another symbol.`}
-        />
+        <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+          <AlertCircle className="h-12 w-12 text-destructive" />
+          <h2 className="text-2xl font-bold">Failed to load stock data</h2>
+          <p className="text-muted-foreground">
+            Could not find data for {currentTicker}. Please try another symbol.
+          </p>
+        </div>
       </div>
     );
   }

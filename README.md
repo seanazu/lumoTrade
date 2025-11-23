@@ -58,10 +58,15 @@
 
 ## 🚀 Quick Start
 
+**📖 New here?** See [SETUP_AND_RUN.md](SETUP_AND_RUN.md) for a 5-minute quick start.
+
+**📚 Want details?** See [GUIDE.md](GUIDE.md) for comprehensive documentation.
+
 ### Prerequisites
 
 - Node.js >= 18.18.0
 - npm >= 8.0.0
+- Python >= 3.10 (for ML backend)
 
 ### Installation
 
@@ -70,22 +75,32 @@
 git clone https://github.com/yourusername/lumotrade.git
 cd lumotrade
 
-# Install dependencies
+# Install frontend dependencies
 npm install
 
-# Create environment file
-cp .env.local.example .env.local
+# Install ML backend dependencies
+cd ml-backend
+pip install -r requirements.txt
+cd ..
 
-# Add your API keys to .env.local
+# Configure API keys
+# Edit ml-backend/.env with your API keys:
 # - OPENAI_API_KEY
-# - RESEND_API_KEY
-# - NEXT_PUBLIC_INSTANT_APP_ID
+# - POLYGON_API_KEY
+# - FMP_API_KEY
+# - MARKETAUX_API_KEY
 
-# Run development server
+# Start ML backend (in one terminal)
+cd ml-backend
+uvicorn app:app --reload --host 0.0.0.0 --port 8000
+
+# Start frontend (in another terminal)
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+**📖 For detailed setup and usage, see [GUIDE.md](./GUIDE.md)**
 
 ---
 

@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Menu, Bell } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "../atoms/Avatar";
+import { Menu, Bell, User } from "lucide-react";
 import { Badge } from "../atoms/Badge";
 import { ThemeToggle } from "../atoms/ThemeToggle";
 import { AIChatToggle } from "../atoms/AIChatToggle";
@@ -100,13 +99,12 @@ const TopBar: React.FC<TopBarProps> = ({
           </motion.button>
 
           {/* User Avatar */}
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Avatar className="cursor-pointer ring-2 ring-transparent hover:ring-primary/30 transition-all">
-              <AvatarImage src="" />
-              <AvatarFallback>
-                {userEmail ? userEmail[0].toUpperCase() : "U"}
-              </AvatarFallback>
-            </Avatar>
+          <motion.div 
+            whileHover={{ scale: 1.05 }} 
+            whileTap={{ scale: 0.95 }}
+            className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center cursor-pointer ring-2 ring-transparent hover:ring-primary/30 transition-all"
+          >
+            <User className="h-4 w-4 text-primary" />
           </motion.div>
         </div>
       </div>

@@ -3,7 +3,7 @@ Backtesting Engine for Prediction Model
 """
 import pandas as pd
 import numpy as np
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 from datetime import datetime, timedelta
 
 from src.data.data_loader import data_loader

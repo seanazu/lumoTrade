@@ -3,7 +3,7 @@
 import { useState, useMemo, type FC } from "react";
 import { motion } from "framer-motion";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, ReferenceArea } from "recharts";
-import { GlassCard } from "@/components/design-system/organisms/GlassCard";
+import { GlassCard } from "@/components/design-system/atoms/GlassCard";
 import { ChartControls } from "./ChartControls";
 import { ChartTimeframe } from "@/types/chart";
 import { TradePlan } from "@/types/trade";

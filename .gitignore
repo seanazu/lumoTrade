@@ -35,3 +35,19 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# documentation (keep only README.md, GUIDE.md, and SETUP_AND_RUN.md)
+*_SETUP.md
+*_SUMMARY.md
+*_STATUS.md
+*_FIX.md
+*_UPDATE.md
+*_RESULTS.md
+*_TESTING.md
+*_REFACTOR.md
+*_INTEGRATION.md
+*_FIXES.md
+*_COMPLETE.md
+QUICKSTART*.md
+RESTART*.md
+test_*.py
+

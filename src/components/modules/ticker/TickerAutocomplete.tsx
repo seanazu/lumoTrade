@@ -2,7 +2,7 @@
 
 import { type FC } from "react";
 import { TickerSearchResult } from "@/types/ticker";
-import { GlassCard } from "@/components/design-system/organisms/GlassCard";
+import { GlassCard } from "@/components/design-system/atoms/GlassCard";
 import { cn } from "@/lib/utils";
 
 interface TickerAutocompleteProps {

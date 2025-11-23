@@ -1,191 +1,134 @@
 # LumoTrade ML Backend
 
-AI-powered market prediction engine combining LSTM neural networks with ChatGPT-5.1 analysis.
+AI-powered market prediction engine combining LightGBM, ChatGPT-5 social sentiment, and multi-source news analysis.
 
 ## 🎯 Features
 
-- **Multi-Model Prediction**: Combines LSTM, ChatGPT-5.1, and sentiment analysis
-- **Sentiment-First Approach**: Prioritizes news and social sentiment (60% weight)
-- **Real-time Updates**: Predictions update every minute
-- **Backtesting**: Test strategies on historical data
-- **Accuracy Tracking**: Monitor model performance over time
-- **100+ Technical Indicators**: Using pandas-ta (pure Python)
+- **Hybrid Prediction**: LightGBM + ChatGPT-5 + Multi-source news sentiment
+- **Multi-Horizon Forecasts**: 1h, 4h, 10h, 1d, 3d, 5d predictions
+- **Real-time Social Sentiment**: ChatGPT-5 web search for X/Twitter, Reddit, StockTwits
+- **Multi-Source News**: FMP, Marketaux, Polygon (100-150 articles per analysis)
+- **Continuous Learning**: Models improve over time, never reset
+- **150+ Technical Indicators**: RSI, MACD, Bollinger Bands, etc.
 
 ## 📋 Prerequisites
 
-- Python 3.9 or higher
-- pip package manager
-- OpenAI API key (for ChatGPT-5.1)
-- Market data API keys (Polygon, FMP, or Marketaux)
+- Python 3.9+
+- OpenAI API key (ChatGPT-5)
+- Polygon, FMP, Marketaux API keys
 
 ## 🚀 Quick Start
 
-### 1. Install Dependencies
-
+### 1. Install
 ```bash
 cd ml-backend
 pip install -r requirements.txt
 ```
 
-### 2. Configure Environment
-
+### 2. Configure
 ```bash
 cp config.example.env .env
-# Edit .env and add your API keys
+# Add your API keys to .env
 ```
 
-Required API keys:
-- `OPENAI_API_KEY`: Get from https://platform.openai.com
-- `FMP_API_KEY` or `POLYGON_API_KEY`: For market data
-- `MARKETAUX_API_KEY`: For news sentiment
-
-### 3. Train the Model (Optional)
-
+### 3. Start
 ```bash
-python -m src.training.train
+uvicorn app:app --reload
 ```
 
-This will:
-- Download 2 years of SPY data
-- Calculate 100+ technical indicators
-- Train LSTM model with attention
-- Save to `models/best_model.pth`
-
-Training takes ~30-60 minutes depending on hardware.
-
-### 4. Start the API Server
-
-```bash
-uvicorn app:app --reload --host 0.0.0.0 --port 8000
-```
-
-Server will be available at `http://localhost:8000`
+Server runs at `http://localhost:8000`
 
 ## 📡 API Endpoints
-
-### Health Check
-```bash
-GET /health
-```
 
 ### Generate Prediction
 ```bash
 POST /api/predict
 {
   "symbol": "SPY",
-  "timeframe": "1h"
+  "debug": true,
+  "horizons": ["1h", "4h", "1d", "3d", "5d"]
 }
 ```
 
-Response:
-```json
-{
-  "success": true,
-  "data": {
-    "direction": "bullish",
-    "confidence": 0.75,
-    "expected_move_percent": 1.2,
-    "key_factors": [...],
-    "risks": [...],
-    "sentiment_breakdown": {
-      "news": 0.6,
-      "social": 0.4
-    }
-  }
-}
-```
+Response includes:
+- 6 horizon predictions (direction, return, confidence, range)
+- Key factors driving prediction
+- News sentiment (100-150 articles)
+- Social sentiment (ChatGPT-5 web search)
+- Technical indicators
+- VIX and macro data
 
-### Explain Prediction
+### Continuous Learning
 ```bash
-POST /api/explain
+GET /api/learning/performance      # Get accuracy metrics
+POST /api/learning/record-outcome  # Record actual outcome
+POST /api/learning/retrain         # Trigger retraining
+POST /api/learning/auto-retrain    # Check if retrain needed
+```
+
+### Market Direction Sentiment
+```bash
+POST /api/market-direction
 {
-  "symbol": "SPY",
-  "question": "Why is the market bullish?"
+  "index": "SPX",
+  "horizon": "T+1",
+  "cutoff_minutes": 30
 }
 ```
 
-### Run Backtest
-```bash
-POST /api/backtest
-{
-  "symbol": "SPY",
-  "start_date": "2023-01-01",
-  "end_date": "2024-01-01",
-  "initial_capital": 10000,
-  "strategy": "follow_prediction"
-}
-```
+## 🧠 How It Works
 
-### Get Accuracy Metrics
-```bash
-GET /api/accuracy
-```
+### 1. Data Collection
+- **Market Data**: Real-time prices from Polygon/FMP
+- **News**: 100-150 articles from FMP, Marketaux, Polygon
+- **Social**: ChatGPT-5 searches X/Twitter, Reddit, StockTwits
+- **Technical**: 150+ indicators (RSI, MACD, etc.)
+- **Macro**: VIX, treasury yields
 
-## 🧠 Model Architecture
+### 2. Feature Engineering
+- **News Features**: Sentiment, importance, macro events (high weight)
+- **Price Features**: Returns, volatility, momentum
+- **Cross-Asset**: VIX, yields, DXY, gold, oil
+- **Breadth**: Constituent analysis
+- **Macro Calendar**: FOMC, CPI, NFP
 
-### Sentiment-First Weighting
+### 3. Prediction
+- **LightGBM**: Tabular ML on 150+ features
+- **ChatGPT-5**: Social sentiment + qualitative analysis
+- **Fusion**: Weighted combination of all signals
 
-The prediction engine uses a weighted fusion approach:
-
-- **News Sentiment**: 35% (Marketaux API + keyword analysis)
-- **Social Sentiment**: 25% (Twitter/Reddit mentions)
-- **ChatGPT-5.1 Analysis**: 25% (LLM reasoning)
-- **LSTM Technical**: 15% (Chart patterns + indicators)
-
-### LSTM Model
-
-- **Architecture**: 3-layer LSTM with attention
-- **Input**: 60-step lookback window
-- **Features**: 100+ technical indicators (RSI, MACD, Bollinger Bands, etc.)
-- **Output**: Direction + magnitude + confidence
-
-### ChatGPT-5.1 Integration
-
-- **Model**: `chatgpt-5.1`
-- **Role**: Analyze news impact, market context, and macro trends
-- **Output**: Structured JSON with reasoning
-
-## 📊 Technical Indicators
-
-Using `pandas-ta` for pure Python indicator calculations:
-
-**Momentum**: RSI (9, 14, 21, 30), MACD, Stochastic, Williams %R, CCI, ROC, MFI
-
-**Trend**: SMA/EMA (20, 50, 200), ADX, DI+/DI-, Parabolic SAR
-
-**Volatility**: Bollinger Bands, ATR, Historical Volatility
-
-**Volume**: OBV, Accumulation/Distribution, Chaikin Oscillator
-
-**Patterns**: Hammer, Inverted Hammer, Engulfing, Doji, Morning/Evening Star, Three White Soldiers/Black Crows
+### 4. Continuous Learning
+- **Auto-record**: Every prediction saved
+- **Validation**: Outcomes checked hourly
+- **Tracking**: Accuracy by horizon/symbol
+- **Auto-retrain**: When accuracy drops or 7 days pass
 
 ## 🎮 Usage Example
 
 ### Python
-
 ```python
-from src.inference.prediction_engine import prediction_engine
+from src.inference.prediction_engine_hybrid import PredictionEngineHybrid
 
-# Generate prediction
-prediction = await prediction_engine.generate_prediction(
+engine = PredictionEngineHybrid()
+prediction = await engine.generate_prediction(
     symbol="SPY",
-    timeframe="1h"
+    horizons=["1h", "1d", "5d"],
+    debug=True
 )
 
-print(f"Direction: {prediction['direction']}")
-print(f"Confidence: {prediction['confidence']:.2%}")
-print(f"Expected Move: {prediction['expected_move_percent']:.2f}%")
+print(f"1h: {prediction['horizons']['1h']['direction']} ({prediction['horizons']['1h']['confidence']:.0%})")
+print(f"1d: {prediction['horizons']['1d']['direction']} ({prediction['horizons']['1d']['confidence']:.0%})")
 ```
 
 ### Frontend (React)
-
 ```typescript
 const { data } = useQuery({
   queryKey: ['prediction'],
   queryFn: async () => {
     const res = await fetch('http://localhost:8000/api/predict', {
       method: 'POST',
-      body: JSON.stringify({ symbol: 'SPY', timeframe: '1h' })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ symbol: 'SPY', debug: true })
     });
     return res.json();
   },
@@ -193,107 +136,135 @@ const { data } = useQuery({
 });
 ```
 
-## 🧪 Testing
+## 🔧 Configuration
 
-### Run All Tests
-```bash
-pytest tests/
-```
-
-### Test Specific Component
-```bash
-pytest tests/test_prediction_engine.py -v
-```
-
-## 📈 Monitoring
-
-### View Accuracy Metrics
+Edit `.env`:
 
 ```bash
-curl http://localhost:8000/api/accuracy
+# API Keys
+OPENAI_API_KEY=sk-...
+POLYGON_API_KEY=...
+FMP_API_KEY=...
+MARKETAUX_API_KEY=...
+
+# Optional: InstantDB for persistent learning
+INSTANT_APP_ID=...
+INSTANT_ADMIN_TOKEN=...
+
+# Model Settings
+LIGHTGBM_LEARNING_RATE=0.05
+LIGHTGBM_NUM_LEAVES=31
+LIGHTGBM_MAX_DEPTH=6
 ```
 
-### Logs
+## 📊 Continuous Learning
 
-Logs are saved to `logs/ml-backend.log`
+### How It Works
+1. **Auto-Record**: Every prediction is saved with timestamp
+2. **Hourly Validation**: System checks if predictions can be validated
+3. **Accuracy Tracking**: Monitors performance by horizon/symbol
+4. **Auto-Retrain**: Triggers when:
+   - Accuracy < 50%
+   - 7 days since last retrain
+   - 100+ new validated predictions
 
-## 🐳 Docker Deployment
-
+### Setup Cron Jobs (Optional)
 ```bash
-docker build -t lumotrade-ml .
-docker run -p 8000:8000 --env-file .env lumotrade-ml
+# Hourly outcome validation
+0 * * * * cd /path/to/ml-backend && python scripts/continuous_learning_cron.py --validate-outcomes
+
+# Daily auto-retrain check
+0 2 * * * cd /path/to/ml-backend && python scripts/continuous_learning_cron.py --auto-retrain
 ```
 
-## ⚙️ Configuration
+### Storage
+- **Local**: `data/learning_history/` (default)
+- **InstantDB**: Cloud storage (optional, set `INSTANT_APP_ID`)
 
-Edit `.env` to customize:
+## 🧪 Training Models
 
+### Train LightGBM
 ```bash
-# Sentiment weights (must sum to 1.0)
-NEWS_SENTIMENT_WEIGHT=0.35
-SOCIAL_SENTIMENT_WEIGHT=0.25
-GPT_WEIGHT=0.25
-LSTM_WEIGHT=0.15
-
-# Update intervals
-PREDICTION_UPDATE_INTERVAL=60  # seconds
-CACHE_TTL=300  # seconds
-
-# Model paths
-MODEL_PATH=models/best_model.pth
-SCALER_PATH=models/scaler.pkl
+python -m src.training.train_lightgbm
 ```
 
-## 🔧 Troubleshooting
+This will:
+- Fetch 2 years of data for SPY, QQQ, IWM
+- Calculate features
+- Train models for each index and horizon
+- Save to `models/lightgbm/`
 
-### Model not loading
-- Ensure you've run training: `python -m src.training.train`
-- Check model files exist: `ls models/`
+Training takes ~30-60 minutes.
 
-### API errors
-- Verify API keys in `.env`
-- Check API rate limits
-- Review logs: `tail -f logs/ml-backend.log`
+### Note on Mock Predictions
+If no trained models exist, the system uses **feature-based predictions** (not random). These are derived from:
+- News sentiment
+- Price momentum
+- VIX levels
+- Technical indicators
 
-### Poor predictions
-- Retrain model with more recent data
-- Adjust sentiment weights in `.env`
-- Increase news data sources
+For best accuracy, train models first!
 
-## 📚 Documentation
+## 🐛 Troubleshooting
 
-- [Full Setup Guide](../ML_BACKEND_SETUP.md)
-- [Implementation Summary](../IMPLEMENTATION_SUMMARY.md)
-- [Sentiment Update Details](../SENTIMENT_FIRST_UPDATE.md)
+### No predictions showing
+- Check API keys in `.env`
+- Restart backend: `uvicorn app:app --reload`
+- Check logs for errors
+
+### News sources failing
+- Verify API keys are valid
+- Check rate limits on provider dashboards
+- Ensure timezone handling is correct
+
+### ChatGPT-5 not working
+- Verify `OPENAI_API_KEY` is set
+- Check OpenAI API status
+- Review logs for error messages
+
+### Poor accuracy
+- Train LightGBM models
+- Wait for continuous learning to accumulate data
+- Check if market conditions changed significantly
+
+## 📚 Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Prediction Engine                         │
+│                                                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
+│  │   Data       │  │  Feature     │  │  LightGBM    │     │
+│  │   Loader     │→ │  Engineering │→ │  Predictor   │     │
+│  └──────────────┘  └──────────────┘  └──────────────┘     │
+│                                              ↓              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
+│  │   Market     │  │   ChatGPT-5  │  │   Fusion     │     │
+│  │   Direction  │→ │   Social     │→ │   Layer      │     │
+│  │   Sentiment  │  │   Sentiment  │  └──────────────┘     │
+│  └──────────────┘  └──────────────┘         ↓              │
+│                                       ┌──────────────┐      │
+│                                       │  Continuous  │      │
+│                                       │  Learner     │      │
+│                                       └──────────────┘      │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ## 💡 Tips
 
-1. **Run training weekly** to keep model fresh with recent patterns
-2. **Monitor accuracy metrics** to detect drift
-3. **Adjust sentiment weights** based on market conditions
-4. **Use backtesting** to validate strategy before live trading
-
-## 🤝 Contributing
-
-Contributions welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch
-3. Add tests for new functionality
-4. Submit a pull request
-
-## 📄 License
-
-MIT License - See LICENSE file for details
+1. **Train models weekly** for best accuracy
+2. **Monitor learning metrics** via `/api/learning/performance`
+3. **Use InstantDB** for multi-server deployments
+4. **Enable debug mode** to see full pipeline details
+5. **Check news sources** if predictions seem off
 
 ## 🆘 Support
 
-For issues or questions:
-- Open a GitHub issue
-- Check documentation
-- Review logs for error messages
+- Check `logs/` for error messages
+- Review API responses with `debug: true`
+- Ensure all API keys are valid
+- Verify Python dependencies are installed
 
 ---
 
-Built with ❤️ using Python, PyTorch, FastAPI, and ChatGPT-5.1
-
+Built with ❤️ using Python, LightGBM, FastAPI, and ChatGPT-5

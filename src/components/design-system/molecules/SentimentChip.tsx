@@ -1,46 +1,25 @@
-import { type FC } from "react";
-import { TrendingUp, TrendingDown, Minus } from "lucide-react";
-import { Badge } from "../atoms/Badge";
+import { cn } from "@/lib/utils";
 
 export type Sentiment = "bullish" | "bearish" | "neutral";
 
-export interface SentimentChipProps {
+interface SentimentChipProps {
   sentiment: Sentiment;
   className?: string;
 }
 
-const sentimentConfig = {
-  bullish: {
-    icon: TrendingUp,
-    label: "Bullish",
-    variant: "bullish" as const,
-  },
-  bearish: {
-    icon: TrendingDown,
-    label: "Bearish",
-    variant: "bearish" as const,
-  },
-  neutral: {
-    icon: Minus,
-    label: "Neutral",
-    variant: "neutral" as const,
-  },
-};
-
-const SentimentChip: FC<SentimentChipProps> = ({
-  sentiment,
-  className,
-}) => {
-  const config = sentimentConfig[sentiment];
-  const IconComponent = config.icon;
-
+export function SentimentChip({ sentiment, className }: SentimentChipProps) {
   return (
-    <Badge variant={config.variant} className={className}>
-      <IconComponent className="h-3 w-3 mr-1" />
-      {config.label}
-    </Badge>
+    <span
+      className={cn(
+        "inline-flex items-center px-2 py-1 rounded-full text-xs font-medium",
+        sentiment === "bullish" && "bg-green-500/10 text-green-500",
+        sentiment === "bearish" && "bg-red-500/10 text-red-500",
+        sentiment === "neutral" && "bg-gray-500/10 text-gray-500",
+        className
+      )}
+    >
+      {sentiment}
+    </span>
   );
-};
-
-export { SentimentChip };
+}
 

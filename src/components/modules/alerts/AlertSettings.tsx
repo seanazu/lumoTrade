@@ -3,7 +3,7 @@
 import { useState, useEffect, type FC } from "react";
 import { motion } from "framer-motion";
 import { Bell, BellOff, Plus, Trash2 } from "lucide-react";
-import { GlassCard } from "@/components/design-system/organisms/GlassCard";
+import { GlassCard } from "@/components/design-system/atoms/GlassCard";
 import { Button } from "@/components/design-system/atoms/Button";
 import { Input } from "@/components/design-system/atoms/Input";
 import { Toggle } from "@/components/design-system/atoms/Toggle";

@@ -14,6 +14,7 @@ from src.data.feature_engineering import FeatureEngineer
 from src.llm.market_analyst import market_analyst
 from src.sentiment.news_sentiment import news_sentiment_analyzer
 from src.sentiment.social_sentiment import social_sentiment_tracker
+from src.sentiment.market_direction_sentiment import market_direction_sentiment
 
 class PredictionEngine:
     def __init__(
@@ -52,7 +53,8 @@ class PredictionEngine:
     async def generate_prediction(
         self,
         symbol: str = "SPY",
-        timeframe: str = "1h"
+        timeframe: str = "1h",
+        debug: bool = False
     ) -> Dict:
         """
         Generate comprehensive market prediction
@@ -60,51 +62,250 @@ class PredictionEngine:
         Args:
             symbol: Stock symbol to predict
             timeframe: Prediction timeframe (1h, 4h, 1d)
+            debug: Include detailed debug information
         
         Returns:
-            Complete prediction dict
+            Complete prediction dict with optional debug data
         """
+        import time
+        debug_info = {
+            "stages": [],
+            "data_sources": {},
+            "timings": {},
+            "detailed_steps": [],
+            "calculations": {}
+        } if debug else None
+        
+        def log_debug(step_name: str, details: str, data: any = None):
+            """Log detailed step information for dashboard"""
+            if debug:
+                debug_info["detailed_steps"].append({
+                    "timestamp": datetime.now().isoformat(),
+                    "step": step_name,
+                    "details": details,
+                    "data": data
+                })
+        
         print(f"\n🔮 Generating prediction for {symbol} ({timeframe})...")
+        log_debug("Initialization", f"Starting prediction for {symbol} ({timeframe})", {
+            "symbol": symbol,
+            "timeframe": timeframe,
+            "model_version": "1.0.0-sentiment-first"
+        })
         
         # 1. Fetch current market data
         print("📊 Fetching market data...")
+        log_debug("Market Data", "Fetching current market prices from API")
+        start_time = time.time() if debug else 0
         current_prices = await self._fetch_current_prices(symbol)
+        if debug:
+            duration = int((time.time() - start_time) * 1000)
+            debug_info["stages"].append({
+                "name": "Fetch Market Data",
+                "duration_ms": duration,
+                "status": "complete"
+            })
+            debug_info["data_sources"]["market_data"] = current_prices
+            log_debug("Market Data", f"Fetched market data in {duration}ms", {
+                "price": current_prices.get("price"),
+                "volume": current_prices.get("volume"),
+                "change_percent": current_prices.get("change_percent")
+            })
         
         # 2. Calculate technical indicators
         print("📈 Calculating technical indicators...")
+        log_debug("Technical Indicators", "Calculating 100+ technical indicators from historical data")
+        start_time = time.time() if debug else 0
         technical_indicators = await self._calculate_indicators(symbol)
+        if debug:
+            duration = int((time.time() - start_time) * 1000)
+            debug_info["stages"].append({
+                "name": "Calculate Technical Indicators",
+                "duration_ms": duration,
+                "status": "complete"
+            })
+            debug_info["data_sources"]["technical_indicators"] = technical_indicators
+            indicator_count = len(technical_indicators) if technical_indicators else 0
+            log_debug("Technical Indicators", f"Calculated {indicator_count} indicators in {duration}ms", {
+                "rsi_14": technical_indicators.get("rsi_14"),
+                "macd": technical_indicators.get("macd"),
+                "bb_upper": technical_indicators.get("bb_upper"),
+                "volume_ratio": technical_indicators.get("volume_ratio"),
+                "total_indicators": indicator_count
+            })
         
         # 3. Analyze news sentiment
         print("📰 Analyzing news sentiment...")
+        log_debug("News Sentiment", "Fetching and analyzing news from Marketaux API (last 24 hours)")
+        start_time = time.time() if debug else 0
         news_sentiment = await news_sentiment_analyzer.analyze_sentiment(symbol, hours_back=24)
+        if debug:
+            duration = int((time.time() - start_time) * 1000)
+            debug_info["stages"].append({
+                "name": "Analyze News Sentiment",
+                "duration_ms": duration,
+                "status": "complete"
+            })
+            debug_info["data_sources"]["news_sentiment"] = news_sentiment
+            log_debug("News Sentiment", f"Analyzed {news_sentiment.get('num_articles', 0)} articles in {duration}ms", {
+                "overall_score": news_sentiment.get("overall_score"),
+                "confidence": news_sentiment.get("confidence"),
+                "num_articles": news_sentiment.get("num_articles"),
+                "breakdown": news_sentiment.get("breakdown"),
+                "key_themes": news_sentiment.get("key_themes", [])[:3]
+            })
         
         # 4. Track social sentiment
         print("🗣 Tracking social sentiment...")
+        log_debug("Social Sentiment", "Tracking mentions from Twitter/Reddit (last 24 hours)")
+        start_time = time.time() if debug else 0
         social_sentiment = await social_sentiment_tracker.track_sentiment(symbol, hours_back=24)
+        if debug:
+            duration = int((time.time() - start_time) * 1000)
+            debug_info["stages"].append({
+                "name": "Track Social Sentiment",
+                "duration_ms": duration,
+                "status": "complete"
+            })
+            debug_info["data_sources"]["social_sentiment"] = social_sentiment
+            log_debug("Social Sentiment", f"Tracked social mentions in {duration}ms", {
+                "overall_score": social_sentiment.get("overall_score"),
+                "confidence": social_sentiment.get("confidence"),
+                "volume": social_sentiment.get("volume"),
+                "breakdown": social_sentiment.get("sentiment_breakdown"),
+                "trending": social_sentiment.get("trending")
+            })
         
         # 5. Get macro data
         print("🌍 Fetching macro data...")
+        log_debug("Macro Data", "Fetching VIX, treasury yields, and economic indicators")
+        start_time = time.time() if debug else 0
         macro_data = await self._fetch_macro_data()
+        if debug:
+            duration = int((time.time() - start_time) * 1000)
+            debug_info["stages"].append({
+                "name": "Fetch Macro Data",
+                "duration_ms": duration,
+                "status": "complete"
+            })
+            debug_info["data_sources"]["macro_data"] = macro_data
+            log_debug("Macro Data", f"Fetched macro indicators in {duration}ms", {
+                "vix": macro_data.get("vix"),
+                "vix_change": macro_data.get("vix_change")
+            })
         
         # 6. Run LSTM prediction (if model available)
         ml_prediction = None
         if self.lstm_model:
             print("🤖 Running LSTM model...")
+            log_debug("LSTM Model", "Running neural network prediction on technical indicators")
+            start_time = time.time() if debug else 0
             ml_prediction = await self._run_lstm_prediction(symbol, technical_indicators)
+            if debug:
+                duration = int((time.time() - start_time) * 1000)
+                debug_info["stages"].append({
+                    "name": "Run LSTM Model",
+                    "duration_ms": duration,
+                    "status": "complete"
+                })
+                debug_info["data_sources"]["lstm_prediction"] = ml_prediction
+                log_debug("LSTM Model", f"LSTM prediction completed in {duration}ms", {
+                    "direction": ml_prediction.get("direction") if ml_prediction else None,
+                    "confidence": ml_prediction.get("overall_confidence") if ml_prediction else None,
+                    "expected_move": ml_prediction.get("expected_move_percent") if ml_prediction else None
+                })
         else:
             print("⏭ Skipping LSTM (no model trained)")
+            log_debug("LSTM Model", "Skipped - no trained model available (run training script)")
+            if debug:
+                debug_info["stages"].append({
+                    "name": "Run LSTM Model",
+                    "duration_ms": 0,
+                    "status": "skipped"
+                })
         
-        # 7. Get ChatGPT-5.1 analysis
-        print("🧠 Running ChatGPT-5.1 analysis...")
+        # 7. Get GPT-4 analysis
+        print("🧠 Running GPT-4 analysis...")
+        log_debug("GPT-4 Analysis", "Sending context to GPT-4 Turbo for market analysis")
+        start_time = time.time() if debug else 0
+        
+        if debug:
+            articles_count = news_sentiment.get("num_articles", 0) if news_sentiment else 0
+            log_debug("GPT-4 Analysis", f"Preparing context with {articles_count} articles", {
+                "articles_count": articles_count,
+                "indicators_count": len(technical_indicators) if technical_indicators else 0
+            })
+        
         llm_analysis = await market_analyst.analyze_market(
             current_prices=current_prices,
             technical_indicators=technical_indicators,
             recent_news=news_sentiment,
             macro_data=macro_data
         )
+        if debug:
+            duration = int((time.time() - start_time) * 1000)
+            debug_info["stages"].append({
+                "name": "Run GPT-4 Analysis",
+                "duration_ms": duration,
+                "status": "complete"
+            })
+            debug_info["data_sources"]["llm_analysis"] = llm_analysis
+            log_debug("GPT-4 Analysis", f"GPT-4 analysis completed in {duration}ms", {
+                "direction": llm_analysis.get("direction"),
+                "confidence": llm_analysis.get("confidence"),
+                "key_factors_count": len(llm_analysis.get("key_factors", [])),
+                "reasoning": llm_analysis.get("reasoning", "")[:200]
+            })
+        
+        # 7.5. Get market direction sentiment (for indices)
+        market_direction = None
+        if symbol in ["SPY", "QQQ", "IWM"]:
+            print("📊 Analyzing market direction sentiment...")
+            log_debug("Market Direction", "Running multi-source sentiment analysis for index")
+            start_time_md = time.time() if debug else 0
+            try:
+                index_map = {"SPY": "SPX", "QQQ": "NDX", "IWM": "RUT"}
+                market_direction = await market_direction_sentiment.analyze_market_direction(
+                    index=index_map.get(symbol, "SPX"),
+                    horizon="T+1",
+                    cutoff_minutes=30
+                )
+                if debug:
+                    duration_md = int((time.time() - start_time_md) * 1000)
+                    debug_info["stages"].append({
+                        "name": "Market Direction Sentiment",
+                        "duration_ms": duration_md,
+                        "status": "complete"
+                    })
+                    debug_info["data_sources"]["market_direction"] = market_direction
+                    log_debug("Market Direction", f"Market direction analysis completed in {duration_md}ms", {
+                        "sentiment_mean": market_direction.get("sentiment_weighted_mean"),
+                        "confidence": market_direction.get("confidence"),
+                        "event_count": market_direction.get("event_count"),
+                        "macro_events": market_direction.get("macro_event_count")
+                    })
+            except Exception as e:
+                print(f"⚠️  Market direction analysis failed: {e}")
+                if debug:
+                    debug_info["stages"].append({
+                        "name": "Market Direction Sentiment",
+                        "duration_ms": 0,
+                        "status": "failed"
+                    })
         
         # 8. Fuse all predictions
         print("🔗 Fusing predictions...")
+        log_debug("Prediction Fusion", "Combining all signals with sentiment-first weighting")
+        start_time = time.time() if debug else 0
+        
+        if debug:
+            log_debug("Prediction Fusion", "Applying weights: News 35%, Social 25%, GPT-4 25%, LSTM 15%", {
+                "news_score": news_sentiment.get("overall_score") if news_sentiment else None,
+                "social_score": social_sentiment.get("overall_score") if social_sentiment else None,
+                "gpt4_direction": llm_analysis.get("direction") if llm_analysis else None,
+                "lstm_direction": ml_prediction.get("direction") if ml_prediction else None
+            })
+        
         final_prediction = await self._fuse_predictions(
             ml_prediction=ml_prediction,
             llm_analysis=llm_analysis,
@@ -112,12 +313,47 @@ class PredictionEngine:
             social_sentiment=social_sentiment,
             macro_data=macro_data
         )
+        if debug:
+            duration = int((time.time() - start_time) * 1000)
+            debug_info["stages"].append({
+                "name": "Fuse Predictions",
+                "duration_ms": duration,
+                "status": "complete"
+            })
+            debug_info["calculations"]["fusion"] = {
+                "final_direction": final_prediction.get("direction"),
+                "final_confidence": final_prediction.get("confidence"),
+                "component_weights": {
+                    "news_sentiment": 0.35,
+                    "social_sentiment": 0.25,
+                    "gpt4_analysis": 0.25,
+                    "lstm_technical": 0.15
+                }
+            }
+            log_debug("Prediction Fusion", f"Fusion completed in {duration}ms", {
+                "final_direction": final_prediction.get("direction"),
+                "final_confidence": final_prediction.get("confidence"),
+                "expected_move": final_prediction.get("expected_move_percent")
+            })
         
         # Add metadata
         final_prediction["symbol"] = symbol
         final_prediction["timeframe"] = timeframe
         final_prediction["timestamp"] = datetime.now().isoformat()
         final_prediction["model_version"] = "1.0.0-sentiment-first"
+        
+        # Add debug info if requested
+        if debug:
+            log_debug("Completion", "Prediction generation complete", {
+                "total_steps": len(debug_info["detailed_steps"]),
+                "total_duration_ms": sum(s["duration_ms"] for s in debug_info["stages"]),
+                "final_result": {
+                    "direction": final_prediction.get("direction"),
+                    "confidence": final_prediction.get("confidence"),
+                    "expected_move": final_prediction.get("expected_move_percent")
+                }
+            })
+            final_prediction["debug"] = debug_info
         
         print(f"✅ Prediction complete: {final_prediction['direction']} ({final_prediction['confidence']:.2f} confidence)")
         

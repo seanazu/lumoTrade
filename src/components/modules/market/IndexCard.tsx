@@ -3,7 +3,7 @@
 import { type FC } from "react";
 import { motion } from "framer-motion";
 import { TrendingUp, TrendingDown } from "lucide-react";
-import { GlassCard } from "@/components/design-system/organisms/GlassCard";
+import { GlassCard } from "@/components/design-system/atoms/GlassCard";
 import { Badge } from "@/components/design-system/atoms/Badge";
 import { IndexData } from "@/resources/mock-data/indexes";
 import { formatPrice, formatPercentage } from "@/utils/formatting/numbers";
@@ -18,7 +18,7 @@ export const IndexCard: FC<IndexCardProps> = ({ index }) => {
   const isPositive = index.change >= 0;
 
   return (
-    <motion.div 
+    <motion.div
       variants={fadeInScale}
       whileHover={{ y: -4 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -47,7 +47,8 @@ export const IndexCard: FC<IndexCardProps> = ({ index }) => {
               }`}
             >
               {isPositive && "+"}
-              {formatPrice(index.change)} ({formatPercentage(index.changePercent)})
+              {formatPrice(index.change)} (
+              {formatPercentage(index.changePercent)})
             </div>
           </div>
 
@@ -83,4 +84,3 @@ export const IndexCard: FC<IndexCardProps> = ({ index }) => {
     </motion.div>
   );
 };
-

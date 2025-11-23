@@ -14,7 +14,6 @@ import { TechnicalAnalysisSection } from "@/components/modules/market/TechnicalA
 import { LivePredictionSection } from "@/components/modules/prediction/LivePredictionSection";
 import { MOCK_INDEX_ANALYSIS } from "@/resources/mock-data/indexes";
 import { fadeInScale, staggerChildren } from "@/utils/animations/variants";
-import { OnboardingFlow } from "@/components/modules/onboarding/OnboardingFlow";
 import { useMarketIndexes } from "@/hooks/useMarketIndexes";
 import { useMarketNews } from "@/hooks/useMarketNews";
 
@@ -38,8 +37,6 @@ function MarketOverview() {
 
   return (
     <div className="container mx-auto p-6 space-y-8">
-      <OnboardingFlow />
-
       {/* Hero Section */}
       <motion.div
         initial="hidden"

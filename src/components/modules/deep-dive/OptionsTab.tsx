@@ -1,7 +1,7 @@
 "use client";
 
 import { type FC } from "react";
-import { GlassCard } from "@/components/design-system/organisms/GlassCard";
+import { GlassCard } from "@/components/design-system/atoms/GlassCard";
 
 interface OptionsTabProps {
   ticker: string;

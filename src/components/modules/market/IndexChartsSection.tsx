@@ -14,7 +14,7 @@ import {
   ResponsiveContainer,
   ReferenceArea,
 } from "recharts";
-import { GlassCard } from "@/components/design-system/organisms/GlassCard";
+import { GlassCard } from "@/components/design-system/atoms/GlassCard";
 import { IndexData } from "@/resources/mock-data/indexes";
 import { MarketSession } from "@/lib/api/types";
 import { useIndexIntraday } from "@/hooks/useIndexIntraday";

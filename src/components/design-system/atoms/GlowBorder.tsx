@@ -1,37 +1,25 @@
-import { forwardRef, type HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
-export interface GlowBorderProps extends HTMLAttributes<HTMLDivElement> {
-  glowColor?: "cyan" | "violet" | "magenta" | "lime";
-  animated?: boolean;
+interface GlowBorderProps {
+  children: React.ReactNode;
+  className?: string;
+  glowColor?: string;
 }
 
-const glowColors = {
-  cyan: "shadow-[0_0_20px_rgba(0,217,255,0.3)]",
-  violet: "shadow-[0_0_20px_rgba(139,92,246,0.3)]",
-  magenta: "shadow-[0_0_20px_rgba(247,0,255,0.3)]",
-  lime: "shadow-[0_0_20px_rgba(125,214,63,0.3)]",
-};
-
-const GlowBorder = forwardRef<HTMLDivElement, GlowBorderProps>(
-  ({ glowColor = "cyan", animated, className, children, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          "relative rounded-2xl border border-white/10",
-          glowColors[glowColor],
-          animated && "animate-pulse",
-          className
-        )}
-        {...props}
-      >
+export function GlowBorder({ children, className, glowColor = "primary" }: GlowBorderProps) {
+  return (
+    <div
+      className={cn(
+        "relative rounded-lg p-[1px]",
+        "bg-gradient-to-br from-primary/50 via-primary/30 to-primary/50",
+        "shadow-lg shadow-primary/20",
+        className
+      )}
+    >
+      <div className="relative bg-background rounded-lg">
         {children}
       </div>
-    );
-  }
-);
-GlowBorder.displayName = "GlowBorder";
-
-export { GlowBorder };
+    </div>
+  );
+}
 
