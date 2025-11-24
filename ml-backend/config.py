@@ -94,7 +94,7 @@ PREDICTION_CONFIG = {
 
 # LLM Configuration
 LLM_CONFIG = {
-    "model": "gpt-4o",  # gpt-4o supports web_search tool
+    "model": "gpt-5",  # gpt-5 supports Responses API + web_search
     "max_tokens": 2000,
     "temperature": 0.7,  # Note: may be deprecated, check OpenAI docs
     

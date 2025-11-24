@@ -15,6 +15,7 @@ if [ ! -f "requirements.txt" ]; then
 fi
 
 echo "📦 Step 1: Updating Python dependencies..."
+export CMAKE_ARGS="-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
 pip install -r requirements.txt --upgrade
 
 if [ $? -ne 0 ]; then
@@ -58,7 +59,7 @@ if grep -q "OPENAI_MODEL=" .env 2>/dev/null; then
     MODEL=$(grep "OPENAI_MODEL=" .env | cut -d= -f2)
     echo "   Using model from .env: $MODEL"
 else
-    echo "   Using default model: gpt-4o"
+    echo "   Using default model: gpt-5"
 fi
 echo ""
 

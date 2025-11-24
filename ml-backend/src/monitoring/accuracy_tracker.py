@@ -241,6 +241,100 @@ class AccuracyTracker:
             "incorrect": len(recent) - correct
         }
 
+    def get_historical_accuracy(self, days: int = 30) -> Dict:
+        """
+        Get historical accuracy trends over time
+        
+        Args:
+            days: Number of days to look back (30 or 90)
+        
+        Returns:
+            Time series data with accuracy by horizon and confidence calibration
+        """
+        cutoff_date = datetime.now() - timedelta(days=days)
+        
+        recent = [
+            p for p in self.predictions 
+            if p.get("verified") and datetime.fromisoformat(p["timestamp"]) > cutoff_date
+        ]
+        
+        if not recent:
+            return {
+                "success": False,
+                "message": "No verified predictions in the specified period",
+                "time_series": [],
+                "by_horizon": {},
+                "confidence_calibration": {},
+                "prediction_vs_actual": []
+            }
+        
+        # Group by date for time series
+        from collections import defaultdict
+        daily_accuracy = defaultdict(lambda: {"total": 0, "correct": 0})
+        
+        for pred in recent:
+            pred_date = datetime.fromisoformat(pred["timestamp"]).date()
+            daily_accuracy[pred_date]["total"] += 1
+            if pred["correct"]:
+                daily_accuracy[pred_date]["correct"] += 1
+        
+        # Build time series
+        time_series = []
+        for date in sorted(daily_accuracy.keys()):
+            data = daily_accuracy[date]
+            accuracy = (data["correct"] / data["total"] * 100) if data["total"] > 0 else 0
+            time_series.append({
+                "date": date.isoformat(),
+                "accuracy": round(accuracy, 2),
+                "total": data["total"],
+                "correct": data["correct"]
+            })
+        
+        # Accuracy by horizon
+        horizons = ["1h", "4h", "10h", "1d", "3d", "5d"]
+        by_horizon = {}
+        
+        for horizon in horizons:
+            horizon_preds = [p for p in recent if p.get("timeframe") == horizon]
+            if horizon_preds:
+                correct = sum(1 for p in horizon_preds if p["correct"])
+                by_horizon[horizon] = {
+                    "total": len(horizon_preds),
+                    "correct": correct,
+                    "accuracy": round((correct / len(horizon_preds) * 100), 2)
+                }
+            else:
+                by_horizon[horizon] = {
+                    "total": 0,
+                    "correct": 0,
+                    "accuracy": 0
+                }
+        
+        # Confidence calibration (actual accuracy by confidence bucket)
+        calibration = self._calculate_confidence_calibration(recent)
+        
+        # Prediction vs actual overlay
+        prediction_vs_actual = []
+        for pred in recent:
+            if pred.get("prediction") and pred.get("actual_move_percent") is not None:
+                prediction_vs_actual.append({
+                    "predicted_move": pred["prediction"].get("expected_move_percent", 0),
+                    "actual_move": pred["actual_move_percent"],
+                    "confidence": pred["prediction"].get("confidence", 0),
+                    "horizon": pred.get("timeframe", "unknown"),
+                    "correct": pred["correct"]
+                })
+        
+        return {
+            "success": True,
+            "period_days": days,
+            "total_predictions": len(recent),
+            "time_series": time_series,
+            "by_horizon": by_horizon,
+            "confidence_calibration": calibration,
+            "prediction_vs_actual": prediction_vs_actual
+        }
+
 # Singleton instance
 accuracy_tracker = AccuracyTracker()
 

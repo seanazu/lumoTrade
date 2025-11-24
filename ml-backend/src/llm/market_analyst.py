@@ -61,8 +61,8 @@ class MarketAnalyst:
         
         Set OPENAI_MODEL in .env to override default
         """
-        # Use env var if set, otherwise default to gpt-4o (supports web_search)
-        self.model = model or os.getenv("OPENAI_MODEL", "gpt-4o")
+        # Use env var if set, otherwise default to gpt-5 (supports web_search)
+        self.model = model or os.getenv("OPENAI_MODEL", "gpt-5")
         self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         
         if not os.getenv("OPENAI_API_KEY"):
