@@ -230,7 +230,7 @@ export default function Home() {
             </Link>
           </motion.nav>
         }
-        sidebarContent={null}
+        showGlobalSidebar={true}
         alertCount={0}
         userEmail="user@example.com"
       >

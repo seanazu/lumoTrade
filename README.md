@@ -58,9 +58,7 @@
 
 ## 🚀 Quick Start
 
-**📖 New here?** See [SETUP_AND_RUN.md](SETUP_AND_RUN.md) for a 5-minute quick start.
-
-**📚 Want details?** See [GUIDE.md](GUIDE.md) for comprehensive documentation.
+**📖 Complete Guide:** See [GUIDE.md](GUIDE.md) for comprehensive documentation including setup, API reference, and usage examples.
 
 ### Prerequisites
 
@@ -100,7 +98,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-**📖 For detailed setup and usage, see [GUIDE.md](./GUIDE.md)**
+**📖 For complete documentation, see [GUIDE.md](./GUIDE.md)**
 
 ---
 

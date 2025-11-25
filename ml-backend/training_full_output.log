@@ -1,0 +1,297 @@
+./run_training.sh: line 5: export: `#': not a valid identifier
+./run_training.sh: line 5: export: `#': not a valid identifier
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/data/api_clients/breadth_calculator.py:70: FutureWarning: The default fill_method='pad' in DataFrame.pct_change is deprecated and will be removed in a future version. Either fill in any non-leading NA values prior to calling pct_change or specify 'fill_method=None' to not fill NA values.
+  daily_returns = close_wide.pct_change()
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:193: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_macro = text_blob.str.contains(RX_MACRO, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:194: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_earn = text_blob.str.contains(RX_EARN, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:193: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_macro = text_blob.str.contains(RX_MACRO, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:194: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_earn = text_blob.str.contains(RX_EARN, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:193: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_macro = text_blob.str.contains(RX_MACRO, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:194: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_earn = text_blob.str.contains(RX_EARN, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:193: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_macro = text_blob.str.contains(RX_MACRO, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:194: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_earn = text_blob.str.contains(RX_EARN, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:193: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_macro = text_blob.str.contains(RX_MACRO, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:194: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_earn = text_blob.str.contains(RX_EARN, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:193: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_macro = text_blob.str.contains(RX_MACRO, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:194: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_earn = text_blob.str.contains(RX_EARN, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/data/dataset_builder.py:180: UserWarning: Failed to process DIA: cannot reindex on an axis with duplicate labels
+  warnings.warn(f"Failed to process {ticker}: {e}")
+Traceback (most recent call last):
+  File "/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/data/dataset_builder.py", line 155, in build_panel_dataset
+    ticker_df = await self._build_ticker_features(
+  File "/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/data/dataset_builder.py", line 332, in _build_ticker_features
+    macro_feat = build_macro_features(idx, fred_series, macro_surprises)
+  File "/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/macro.py", line 31, in build_macro_features
+    level_feat = _build_macro_level_features(idx_dt, fred_series)
+  File "/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/macro.py", line 52, in _build_macro_level_features
+    r2 = _align_series(fred_series.get("DGS2"), idx, "r2")
+  File "/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/macro.py", line 228, in _align_series
+    s = s.reindex(idx)
+  File "/Users/seanazulay/.pyenv/versions/3.10.0/lib/python3.10/site-packages/pandas/core/series.py", line 5133, in reindex
+    return super().reindex(
+  File "/Users/seanazulay/.pyenv/versions/3.10.0/lib/python3.10/site-packages/pandas/core/generic.py", line 5604, in reindex
+    return self._reindex_axes(
+  File "/Users/seanazulay/.pyenv/versions/3.10.0/lib/python3.10/site-packages/pandas/core/generic.py", line 5627, in _reindex_axes
+    new_index, indexer = ax.reindex(
+  File "/Users/seanazulay/.pyenv/versions/3.10.0/lib/python3.10/site-packages/pandas/core/indexes/base.py", line 4426, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:193: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_macro = text_blob.str.contains(RX_MACRO, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:194: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_earn = text_blob.str.contains(RX_EARN, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:193: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_macro = text_blob.str.contains(RX_MACRO, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:194: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_earn = text_blob.str.contains(RX_EARN, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/data/dataset_builder.py:180: UserWarning: Failed to process IWM: cannot reindex on an axis with duplicate labels
+  warnings.warn(f"Failed to process {ticker}: {e}")
+Traceback (most recent call last):
+  File "/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/data/dataset_builder.py", line 155, in build_panel_dataset
+    ticker_df = await self._build_ticker_features(
+  File "/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/data/dataset_builder.py", line 332, in _build_ticker_features
+    macro_feat = build_macro_features(idx, fred_series, macro_surprises)
+  File "/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/macro.py", line 31, in build_macro_features
+    level_feat = _build_macro_level_features(idx_dt, fred_series)
+  File "/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/macro.py", line 52, in _build_macro_level_features
+    r2 = _align_series(fred_series.get("DGS2"), idx, "r2")
+  File "/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/macro.py", line 228, in _align_series
+    s = s.reindex(idx)
+  File "/Users/seanazulay/.pyenv/versions/3.10.0/lib/python3.10/site-packages/pandas/core/series.py", line 5133, in reindex
+    return super().reindex(
+  File "/Users/seanazulay/.pyenv/versions/3.10.0/lib/python3.10/site-packages/pandas/core/generic.py", line 5604, in reindex
+    return self._reindex_axes(
+  File "/Users/seanazulay/.pyenv/versions/3.10.0/lib/python3.10/site-packages/pandas/core/generic.py", line 5627, in _reindex_axes
+    new_index, indexer = ax.reindex(
+  File "/Users/seanazulay/.pyenv/versions/3.10.0/lib/python3.10/site-packages/pandas/core/indexes/base.py", line 4426, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:193: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_macro = text_blob.str.contains(RX_MACRO, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:194: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_earn = text_blob.str.contains(RX_EARN, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:193: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_macro = text_blob.str.contains(RX_MACRO, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/features/news_sentiment.py:194: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+  is_earn = text_blob.str.contains(RX_EARN, regex=True, na=False) if len(text_blob) else pd.Series(False, index=out.index)
+Traceback (most recent call last):
+  File "/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/tests/test_3_full_training.py", line 70, in main
+    result = await train_panel_models(
+  File "/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/training/trainer.py", line 130, in train_panel_models
+    folds = create_walk_forward_folds(
+  File "/Users/seanazulay/Desktop/StockBots/LumoTrade/ml-backend/src/core/training/validator.py", line 50, in create_walk_forward_folds
+    raise ValueError(
+ValueError: Insufficient data: 2511 bars available, need at least 6000
+============================================================
+  Full Training Test (10 years, 1-hour data)
+============================================================
+
+Configuration:
+  Universe: ['SPY', 'QQQ', 'DIA', 'IWM', 'XLK'] (5 tickers)
+  Date range: 2015-11-28 to 2025-11-25 (10 years)
+  Interval: 1hour
+  Horizons: [1, 5, 20]
+  Expected samples: ~12,500 (exceeds 12,000 requirement!)
+
+============================================================
+  Training Models
+============================================================
+This will take 15-30 minutes...
+Progress will be shown below:
+
+[5%] Building panel dataset
+  Fetching data for 5 tickers
+[Panel Builder] Starting pipeline...
+  Universe: ['SPY', 'QQQ', 'DIA', 'IWM', 'XLK']
+  Date range: 2015-11-28 to 2025-11-25
+  Interval: 1hour
+  Horizons: [1, 5, 20]
+
+[Step 1/6] Fetching shared data sources...
+  - Fetching news from FMP (extensive historical coverage)...
+[FMP] Fetching news: 2015-11-28 to 2025-11-25, tickers=['SPY', 'QQQ', 'DIA', 'IWM', 'XLK']
+[FMP] market page 1: 50 articles
+[FMP] market page 2: 50 articles
+[FMP] market page 3: 50 articles
+[FMP] market page 4: 50 articles
+[FMP] market page 5: 50 articles
+[FMP] market page 6: 50 articles
+[FMP] market page 7: 50 articles
+[FMP] market page 8: 50 articles
+[FMP] market page 9: 50 articles
+[FMP] market page 10: 50 articles
+[FMP] market page 11: 50 articles
+[FMP] market page 12: 50 articles
+[FMP] market page 13: 50 articles
+[FMP] market page 14: 48 articles
+[FMP] ticker:SPY page 1: 50 articles
+[FMP] ticker:SPY page 2: 50 articles
+[FMP] ticker:SPY page 3: 50 articles
+[FMP] ticker:SPY page 4: 50 articles
+[FMP] ticker:SPY page 5: 50 articles
+[FMP] ticker:SPY page 6: 50 articles
+[FMP] ticker:SPY page 7: 50 articles
+[FMP] ticker:SPY page 8: 50 articles
+[FMP] ticker:SPY page 9: 43 articles
+[FMP] ticker:QQQ page 1: 50 articles
+[FMP] ticker:QQQ page 2: 50 articles
+[FMP] ticker:QQQ page 3: 44 articles
+[FMP] ticker:DIA page 1: 50 articles
+[FMP] ticker:DIA page 2: 50 articles
+[FMP] ticker:DIA page 3: 50 articles
+[FMP] ticker:DIA page 4: 50 articles
+[FMP] ticker:DIA page 5: 50 articles
+[FMP] ticker:DIA page 6: 50 articles
+[FMP] ticker:DIA page 7: 50 articles
+[FMP] ticker:DIA page 8: 50 articles
+[FMP] ticker:DIA page 9: 50 articles
+[FMP] ticker:DIA page 10: 50 articles
+[FMP] ticker:DIA page 11: 50 articles
+[FMP] ticker:DIA page 12: 50 articles
+[FMP] ticker:DIA page 13: 50 articles
+[FMP] ticker:DIA page 14: 50 articles
+[FMP] ticker:DIA page 15: 50 articles
+[FMP] ticker:DIA page 16: 50 articles
+[FMP] ticker:DIA page 17: 50 articles
+[FMP] ticker:DIA page 18: 50 articles
+[FMP] ticker:DIA page 19: 50 articles
+[FMP] ticker:DIA page 20: 50 articles
+[FMP] ticker:DIA page 21: 50 articles
+[FMP] ticker:DIA page 22: 50 articles
+[FMP] ticker:DIA page 23: 50 articles
+[FMP] ticker:DIA page 24: 3 articles
+[FMP] ticker:IWM page 1: 50 articles
+[FMP] ticker:IWM page 2: 50 articles
+[FMP] ticker:IWM page 3: 50 articles
+[FMP] ticker:IWM page 4: 50 articles
+[FMP] ticker:IWM page 5: 50 articles
+[FMP] ticker:IWM page 6: 50 articles
+[FMP] ticker:IWM page 7: 50 articles
+[FMP] ticker:IWM page 8: 50 articles
+[FMP] ticker:IWM page 9: 50 articles
+[FMP] ticker:IWM page 10: 50 articles
+[FMP] ticker:IWM page 11: 50 articles
+[FMP] ticker:IWM page 12: 50 articles
+[FMP] ticker:IWM page 13: 50 articles
+[FMP] ticker:IWM page 14: 50 articles
+[FMP] ticker:IWM page 15: 50 articles
+[FMP] ticker:IWM page 16: 50 articles
+[FMP] ticker:IWM page 17: 50 articles
+[FMP] ticker:IWM page 18: 50 articles
+[FMP] ticker:IWM page 19: 15 articles
+[FMP] ticker:XLK page 1: 50 articles
+[FMP] ticker:XLK page 2: 50 articles
+[FMP] ticker:XLK page 3: 50 articles
+[FMP] ticker:XLK page 4: 50 articles
+[FMP] ticker:XLK page 5: 50 articles
+[FMP] ticker:XLK page 6: 50 articles
+[FMP] ticker:XLK page 7: 50 articles
+[FMP] ticker:XLK page 8: 50 articles
+[FMP] ticker:XLK page 9: 50 articles
+[FMP] ticker:XLK page 10: 50 articles
+[FMP] ticker:XLK page 11: 50 articles
+[FMP] ticker:XLK page 12: 33 articles
+  - Fetching macro data (FRED)...
+[FRED] Fetching DGS2...
+[FRED] Fetching DGS10...
+[FRED] Fetching DGS30...
+[FRED] Fetching FEDFUNDS...
+[FRED] Fetching MORTGAGE30US...
+[FRED] Fetching CPIAUCSL...
+[FRED] Fetching CPILFESL...
+[FRED] Fetching PCEPI...
+[FRED] Fetching PCEPILFE...
+[FRED] Fetching UNRATE...
+[FRED] Fetching PAYEMS...
+[FRED] Fetching ICSA...
+[FRED] Fetching CCSA...
+[FRED] Fetching INDPRO...
+[FRED] Fetching RSXFS...
+[FRED] Fetching HOUST...
+[FRED] Fetching PERMIT...
+[FRED] Fetching MANEMP...
+[FRED] Fetching UMCSENT...
+[FRED] Fetching BAMLH0A0HYM2...
+[FRED] Fetching BAMLC0A4CBBB...
+[FRED] Fetching T10Y2Y...
+[FRED] Fetching T10Y3M...
+[FRED] Fetching VIXCLS...
+  - Fetching macro surprises (FMP)...
+  - Fetching cross-asset data (Yahoo)...
+Loading ^VIX from cache...
+Loading ^VIX3M from cache...
+Loading DX-Y.NYB from cache...
+Loading GC=F from cache...
+Loading CL=F from cache...
+Loading ^TNX from cache...
+Loading HYG from cache...
+Loading LQD from cache...
+Loading TLT from cache...
+  - Fetching breadth data (Yahoo)...
+
+[Step 2/6] Building features for 5 tickers...
+  [1/5] Processing SPY...
+Loading SPY from cache...
+    ✓ SPY: 2512 samples, 233 features
+  [2/5] Processing QQQ...
+Loading QQQ from cache...
+    ✓ QQQ: 2512 samples, 233 features
+  [3/5] Processing DIA...
+Fetching DIA data from 2015-11-28 to 2025-11-25...
+Fetched 441 bars from FMP for DIA (1hour)
+Cached 441 records
+    ✗ DIA: Failed (cannot reindex on an axis with duplicate labels)
+    Full traceback:
+  [4/5] Processing IWM...
+Fetching IWM data from 2015-11-28 to 2025-11-25...
+Fetched 441 bars from FMP for IWM (1hour)
+Cached 441 records
+    ✗ IWM: Failed (cannot reindex on an axis with duplicate labels)
+    Full traceback:
+  [5/5] Processing XLK...
+Loading XLK from cache...
+    ✓ XLK: 2512 samples, 233 features
+
+[Step 3/6] Concatenating panel...
+  Panel shape: (7536, 233)
+
+[Step 4/6] Adding ticker dummies...
+
+[Step 5/6] Separating features and targets...
+  Features: (7536, 235)
+  Targets: (7536, 3)
+
+[Step 6/6] Final cleanup...
+  Dropping 37 cols with >50% missing
+
+[Complete] Panel dataset ready:
+  Total samples: 7533
+  Total features: 198
+  Tickers: ['SPY', 'QQQ', 'DIA', 'IWM', 'XLK']
+  Date range: 2015-11-30 00:00:00 to 2025-11-21 00:00:00
+[30%] Panel dataset ready
+    step: 7533 samples, 198 features
+    metrics: {'total_samples': 7533, 'total_features': 198, 'tickers': ['SPY', 'QQQ', 'DIA', 'IWM', 'XLK']}
+[30%] Panel dataset ready
+  7533 samples, 198 features
+[32%] Creating walk-forward folds
+  Setting up time-series CV
+
+============================================================
+  Training Failed
+============================================================
+
+❌ Error: Insufficient data: 2511 bars available, need at least 6000
+

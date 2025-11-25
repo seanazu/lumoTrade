@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Menu, Bell, User } from "lucide-react";
+import { Menu, Bell, User, TrendingUp, Brain, BarChart3, Settings } from "lucide-react";
 import { Badge } from "../atoms/Badge";
 import { ThemeToggle } from "../atoms/ThemeToggle";
 import { AIChatToggle } from "../atoms/AIChatToggle";
@@ -22,6 +24,15 @@ const TopBar: React.FC<TopBarProps> = ({
   userEmail,
   children,
 }) => {
+  const pathname = usePathname();
+  
+  const navItems = [
+    { href: "/", label: "Market", icon: TrendingUp },
+    { href: "/analyzer", label: "Analyzer", icon: Brain },
+    { href: "/model-monitor", label: "Models", icon: BarChart3 },
+    { href: "/settings", label: "Settings", icon: Settings },
+  ];
+  
   return (
       <motion.header
         className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-xl"
@@ -33,7 +44,7 @@ const TopBar: React.FC<TopBarProps> = ({
         {/* Menu button for mobile */}
         <motion.button
           onClick={onMenuClick}
-          className="lg:hidden p-2 hover:bg-primary/10 rounded-lg transition-colors"
+          className="md:hidden p-2 hover:bg-primary/10 rounded-lg transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -41,6 +52,7 @@ const TopBar: React.FC<TopBarProps> = ({
         </motion.button>
 
         {/* Logo */}
+        <Link href="/">
             <div className="flex items-center gap-2 group cursor-pointer">
               <motion.div
                 className="w-8 h-8 rounded-md bg-gradient-to-br from-[#4ecdc4] to-[#1a535c] flex items-center justify-center font-bold text-sm text-white"
@@ -53,11 +65,40 @@ const TopBar: React.FC<TopBarProps> = ({
                 LumoTrade
               </span>
             </div>
+        </Link>
 
-        {/* Navigation / Content */}
-        <div className="flex-1 flex items-center gap-6 px-6">
+        {/* Desktop Navigation - Hidden on mobile */}
+        <nav className="hidden md:flex flex-1 items-center gap-1 px-6">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href;
+            
+            return (
+              <Link key={item.href} href={item.href}>
+                <motion.div
+                  className={cn(
+                    "flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-colors",
+                    isActive 
+                      ? "bg-primary/10 text-primary" 
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                  )}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span>{item.label}</span>
+                </motion.div>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Custom content from children (for specific pages) */}
+        {children && (
+          <div className="flex-1 flex items-center gap-6 px-6 md:hidden">
           {children}
         </div>
+        )}
 
         {/* Right side - Live Indicator, AI Chat, Theme, Alerts and User */}
         <div className="flex items-center gap-3">

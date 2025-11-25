@@ -2,40 +2,29 @@
 
 import { useState, useEffect, type ReactNode, type FC } from "react";
 import { TopBar } from "./TopBar";
-import { Sidebar } from "./Sidebar";
+import { GlobalSidebar } from "./GlobalSidebar";
+import { ProgressSidePanel, ProgressFloatingButton } from "@/components/modules/progress/ProgressSidePanel";
 
 export interface AppShellProps {
   topBarContent?: ReactNode;
-  sidebarContent?: ReactNode;
   alertCount?: number;
   userEmail?: string;
   children: ReactNode;
+  showGlobalSidebar?: boolean;
 }
 
 const AppShell: FC<AppShellProps> = ({
   topBarContent,
-  sidebarContent,
   alertCount,
   userEmail,
   children,
+  showGlobalSidebar = true,
 }) => {
-  // Open sidebar by default on desktop if there's content
+  // Sidebar only for mobile, closed by default
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024 && sidebarContent) {
-        setSidebarOpen(true);
-      }
-    };
-    
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [sidebarContent]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
       <TopBar
         onMenuClick={() => setSidebarOpen(!sidebarOpen)}
         alertCount={alertCount}
@@ -44,20 +33,22 @@ const AppShell: FC<AppShellProps> = ({
         {topBarContent}
       </TopBar>
 
-      <div className="flex flex-1 relative">
-        {sidebarContent && (
-          <Sidebar
+      <div className="flex flex-1 relative overflow-hidden">
+        {showGlobalSidebar && (
+          <GlobalSidebar
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
-          >
-            {sidebarContent}
-          </Sidebar>
+          />
         )}
 
         <main className="flex-1 overflow-auto">
           {children}
         </main>
       </div>
+
+      {/* Global Progress Tracking */}
+      <ProgressSidePanel />
+      <ProgressFloatingButton />
     </div>
   );
 };

@@ -5,13 +5,24 @@ import { useQuery } from '@tanstack/react-query';
 import { Card } from '@/components/design-system/atoms/Card';
 import { Button } from '@/components/design-system/atoms/Button';
 import { DistributionChart } from '@/components/design-system/charts';
-import { TrendingUp, TrendingDown, Minus, Target, AlertTriangle } from 'lucide-react';
+import { TrendingUp, TrendingDown, Minus, Target, AlertTriangle, Brain } from 'lucide-react';
+import { useSSEProgress } from '@/hooks/useSSEProgress';
+import { ProgressPanel } from '@/components/modules/progress/ProgressPanel';
 
 interface TomorrowPredictionProps {
   index: string;
 }
 
 export function TomorrowPrediction({ index }: TomorrowPredictionProps) {
+  const [operationId, setOperationId] = useState<string | null>(null);
+  const [showProgress, setShowProgress] = useState(false);
+  
+  // SSE Progress tracking
+  const sseUrl = operationId
+    ? `http://localhost:8000/api/stream/prediction?operation_id=${operationId}&index=${index}&horizons=1d&debug=true`
+    : null;
+  const { progress, isConnected, connect, disconnect } = useSSEProgress(sseUrl);
+
   const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ['tomorrow-prediction', index],
     queryFn: async () => {
@@ -32,8 +43,21 @@ export function TomorrowPrediction({ index }: TomorrowPredictionProps) {
     staleTime: 5 * 60 * 1000 // 5 minutes
   });
 
-  const prediction = data?.data?.horizons?.['1d'];
-  const keyFactors = data?.data?.key_factors || [];
+  const handleGeneratePrediction = () => {
+    // Generate unique operation ID
+    const newOpId = `pred_${Date.now()}`;
+    setOperationId(newOpId);
+    setShowProgress(true);
+    
+    // Start SSE connection
+    setTimeout(() => connect(), 100);
+  };
+
+  // Use result from SSE if available, otherwise fallback to query data
+  const predictionData = progress.result?.data || data?.data;
+
+  const prediction = predictionData?.horizons?.['1d'];
+  const keyFactors = predictionData?.key_factors || [];
 
   const direction = prediction?.direction || 'neutral';
   const confidence = prediction?.confidence || 0;
@@ -54,12 +78,12 @@ export function TomorrowPrediction({ index }: TomorrowPredictionProps) {
           Tomorrow's Prediction
         </h2>
         <Button
-          onClick={() => refetch()}
-          disabled={isFetching}
+          onClick={handleGeneratePrediction}
+          disabled={isFetching || isConnected}
           size="sm"
           className="gap-2"
         >
-          {isFetching ? (
+          {isConnected ? (
             <>
               <div className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
               Generating...
@@ -70,12 +94,25 @@ export function TomorrowPrediction({ index }: TomorrowPredictionProps) {
         </Button>
       </div>
 
-      {isLoading || isFetching ? (
+      {/* Progress Panel */}
+      {showProgress && progress.steps.length > 0 && (
+        <div className="mb-6">
+          <ProgressPanel 
+            progress={progress} 
+            title="Prediction Progress"
+            showData={true}
+          />
+        </div>
+      )}
+
+      {isLoading || isFetching || isConnected ? (
         <div className="text-center py-12">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mb-4"></div>
-          <p className="text-gray-400">Analyzing market conditions...</p>
+          <p className="text-gray-400">
+            {isConnected ? 'Generating prediction...' : 'Analyzing market conditions...'}
+          </p>
         </div>
-      ) : data?.success && prediction ? (
+      ) : (progress.isComplete || data?.success) && prediction ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left: Direction & Confidence */}
           <div className="space-y-6">
@@ -133,6 +170,66 @@ export function TomorrowPrediction({ index }: TomorrowPredictionProps) {
                 </div>
               )}
             </div>
+
+            {/* Model Source Badge */}
+            {prediction?.source && (
+              <div className="bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-gray-300 text-sm font-medium">Prediction Source</span>
+                  <div className="flex items-center gap-2">
+                    {prediction.model_details?.lightgbm && (
+                      <div className="flex items-center gap-1.5 bg-blue-500/20 border border-blue-500/30 rounded-full px-3 py-1">
+                        <Brain className="w-3.5 h-3.5 text-blue-400" />
+                        <span className="text-xs font-semibold text-blue-300">LightGBM</span>
+                      </div>
+                    )}
+                    {prediction.model_details?.llm && (
+                      <div className="flex items-center gap-1.5 bg-purple-500/20 border border-purple-500/30 rounded-full px-3 py-1">
+                        <Target className="w-3.5 h-3.5 text-purple-400" />
+                        <span className="text-xs font-semibold text-purple-300">ChatGPT</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                {prediction.model_details?.fusion_weights && (
+                  <div className="space-y-2">
+                    {prediction.model_details.fusion_weights.ml_weight > 0 && (
+                      <div>
+                        <div className="flex items-center justify-between text-xs mb-1">
+                          <span className="text-gray-400">ML Weight</span>
+                          <span className="text-blue-400 font-semibold">
+                            {(prediction.model_details.fusion_weights.ml_weight * 100).toFixed(0)}%
+                          </span>
+                        </div>
+                        <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-to-r from-blue-500 to-blue-400 rounded-full transition-all duration-500"
+                            style={{ width: `${prediction.model_details.fusion_weights.ml_weight * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {prediction.model_details.fusion_weights.llm_weight > 0 && (
+                      <div>
+                        <div className="flex items-center justify-between text-xs mb-1">
+                          <span className="text-gray-400">LLM Weight</span>
+                          <span className="text-purple-400 font-semibold">
+                            {(prediction.model_details.fusion_weights.llm_weight * 100).toFixed(0)}%
+                          </span>
+                        </div>
+                        <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-to-r from-purple-500 to-purple-400 rounded-full transition-all duration-500"
+                            style={{ width: `${prediction.model_details.fusion_weights.llm_weight * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Expected Move */}
             <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
@@ -210,7 +307,7 @@ export function TomorrowPrediction({ index }: TomorrowPredictionProps) {
         <div className="text-center py-12">
           <Target className="w-16 h-16 text-gray-600 mx-auto mb-4" />
           <p className="text-gray-400 text-lg mb-4">No prediction available</p>
-          <Button onClick={() => refetch()}>
+          <Button onClick={handleGeneratePrediction}>
             Generate Prediction for Tomorrow
           </Button>
         </div>
