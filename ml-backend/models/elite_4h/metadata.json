@@ -1,0 +1,60 @@
+{
+  "interval": "4h",
+  "tickers": [
+    "SPY",
+    "QQQ",
+    "DIA"
+  ],
+  "features": [
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "buy_pressure",
+    "sell_pressure",
+    "net_pressure",
+    "pressure_ratio",
+    "volume_surge",
+    "momentum_2d",
+    "momentum_5d",
+    "momentum_10d",
+    "momentum_acceleration",
+    "relative_strength",
+    "gap_size",
+    "gap_filled",
+    "vix_level",
+    "vix_change",
+    "vix_spike",
+    "pc_ratio_proxy",
+    "pc_ratio_change",
+    "rsi",
+    "macd",
+    "macd_signal",
+    "macd_histogram",
+    "atr",
+    "atr_pct",
+    "volatility_surge"
+  ],
+  "avg_accuracy": 0.5945945945945946,
+  "avg_annual_return": 0.6463555634723297,
+  "training_date": "2025-11-26T13:08:55.846079",
+  "training_time_seconds": 8.093881130218506,
+  "fold_results": [
+    {
+      "fold": 1,
+      "accuracy": 0.5945945945945946,
+      "annual_return": 0.6442910527062808
+    },
+    {
+      "fold": 2,
+      "accuracy": 0.6108108108108108,
+      "annual_return": 0.7764417627119511
+    },
+    {
+      "fold": 3,
+      "accuracy": 0.5783783783783784,
+      "annual_return": 0.5183338749987572
+    }
+  ]
+}
