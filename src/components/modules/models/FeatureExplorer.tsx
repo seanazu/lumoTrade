@@ -39,7 +39,7 @@ export function FeatureExplorer() {
 
   const fetchFeatures = async () => {
     try {
-      const response = await fetch("http://localhost:8001/api/model/features");
+      const response = await fetch("http://localhost:8000/api/model/features");
       const featuresData = await response.json();
       setData(featuresData);
     } catch (error) {

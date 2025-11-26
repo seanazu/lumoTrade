@@ -28,7 +28,7 @@ export function ModelStatusBar() {
 
   const fetchStatus = async () => {
     try {
-      const response = await fetch("http://localhost:8001/api/model/status");
+      const response = await fetch("http://localhost:8000/api/model/status");
       const data = await response.json();
       setStatus(data);
     } catch (error) {

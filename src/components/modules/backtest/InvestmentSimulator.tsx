@@ -56,7 +56,7 @@ export function InvestmentSimulator({ ticker }: InvestmentSimulatorProps) {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:8001/api/backtest/simulate/${ticker}/${timeframe}`
+        `http://localhost:8000/api/backtest/simulate/${ticker}/${timeframe}`
       );
       const data = await response.json();
       setResults(data);

@@ -71,7 +71,7 @@ export function ModelOverviewPanel({ ticker }: ModelOverviewPanelProps) {
 
   const fetchModelInfo = async () => {
     try {
-      const response = await fetch("http://localhost:8001/api/model/info");
+      const response = await fetch("http://localhost:8000/api/model/info");
       const data = await response.json();
       setModelInfo(data);
     } catch (error) {

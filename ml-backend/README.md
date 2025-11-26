@@ -1,116 +1,84 @@
-# LumoTrade ML Backend
+# ML Backend - Technical Documentation
 
-**Production-grade quantitative trading ML system with 230+ features and quantile regression.**
+Backend server for LumoTrade AI trading system.
 
----
-
-## 🚀 Quick Start
+## Quick Setup
 
 ```bash
-# 1. Load environment variables
-source load_env.sh
+# Install dependencies
+pip install -r requirements.txt
 
-# 2. Run validation
-python tests/test_1_validation.py
+# Configure environment
+cp .env.example .env
+# Edit .env with your API keys
 
-# 3. Start server
-python app.py
+# Train model
+python3 run_full_multi_timeframe_training.py
 
-# 4. Access API docs
-open http://localhost:8001/docs
+# Start server
+uvicorn app:app --reload --port 8000
 ```
 
----
+## Environment Variables
 
-## 📚 Complete Documentation
-
-**See the main [GUIDE.md](../GUIDE.md) for comprehensive documentation including:**
-
-- Complete setup instructions
-- API reference with examples
-- Feature engineering details
-- Model architecture
-- Training & prediction workflows
-- Environment configuration
-- Troubleshooting
-
----
-
-## 📂 Quick Reference
-
-### Project Structure
-
-```
-ml-backend/
-├── app.py                 # FastAPI server
-├── src/
-│   ├── api/              # API routes
-│   ├── core/             # Business logic
-│   │   ├── data/         # Data loading & API clients
-│   │   ├── features/     # 230+ feature engineering
-│   │   ├── models/       # ML models
-│   │   ├── training/     # Training pipeline
-│   │   ├── inference/    # Prediction engine
-│   │   └── backtesting/  # Backtesting engine
-│   ├── database/         # InstantDB integration
-│   └── llm/             # LLM integration
-├── tests/               # Test suite
-└── docs/                # Additional documentation
-```
-
-### Key Features
-
-- **230+ Features**: Technical, news, macro, cross-asset, breadth, calendar, interactions
-- **9 Models**: 3 horizons × 3 quantiles (P10, P50, P90)
-- **Panel Data**: Multi-ticker training for better generalization
-- **Walk-Forward Validation**: Prevents overfitting
-- **Real-Time Predictions**: <500ms latency
-- **Advanced Backtesting**: Realistic constraints (costs, stops)
-
-### API Endpoints
-
+Required in `.env`:
 ```bash
-# Health
-GET /api/health
-
-# Training
-POST /api/training/panel
-
-# Predictions
-POST /api/predict/
-
-# Backtesting
-POST /api/backtest/
-
-# Model Info
-GET /api/model/info
-GET /api/model/features
-GET /api/model/status
-
-# Investment Simulation
-GET /api/backtest/simulate/{ticker}/{timeframe}
+OPENAI_API_KEY=your_key        # For news sentiment (GPT-5)
+NEWSAPI_KEY=your_key           # For news articles
+ALPHAVANTAGE_KEY=your_key      # For market data
+SUPABASE_URL=your_url          # For database
+SUPABASE_KEY=your_key          # For database
 ```
 
----
+## API Server
 
-## 🔧 Additional Resources
+**Start:** `uvicorn app:app --reload --port 8000`
 
-- **[Quick Start Guide](docs/QUICK_START.md)** - Get started in 5 minutes
-- **[Environment Setup](docs/ENV_SETUP.md)** - API keys and configuration
-- **[Main Guide](../GUIDE.md)** - Complete documentation
-- **[API Docs](http://localhost:8001/docs)** - Interactive API documentation
+**Key Endpoints:**
+- `/api/train/ultimate` - Train model (POST)
+- `/api/predict/{ticker}` - Get predictions (GET)
+- `/api/backtest` - Run backtest (POST)
 
----
+## Training Scripts
 
-## 🎯 What This System Does
+**Full pipeline (recommended):**
+```bash
+python3 run_full_multi_timeframe_training.py
+```
+Trains 1h, 4h, and daily models. Takes 30-45 minutes.
 
-1. **Collects Data** from FMP, FRED, Yahoo Finance
-2. **Engineers 230+ Features** across 8 categories
-3. **Trains Models** using panel data with walk-forward validation
-4. **Generates Predictions** with uncertainty bands (P10, P50, P90)
-5. **Backtests Strategies** with realistic constraints
-6. **Stores Results** in InstantDB for continuous learning
+**Individual models:**
+```bash
+python3 train_model.py      # Daily (baseline)
+python3 train_1h_model.py   # Intraday  
+python3 train_4h_model.py   # Swing
+```
 
----
+## Model Architecture
 
-**For complete documentation, see [GUIDE.md](../GUIDE.md)**
+- **ML Models:** LightGBM, XGBoost, CatBoost ensemble
+- **Features:** 109+ predictive features
+- **RL Agent:** DDPG (246K parameters) for position sizing
+- **Validation:** Walk-forward with 5-fold cross-validation
+- **Target:** Binary classification (UP/DOWN direction)
+
+## Results Location
+
+After training, check:
+```bash
+models/ultimate/metadata.json       # Training stats
+models/ultimate/predictions.csv     # All predictions
+models/ultimate/signals.csv         # Trading signals
+```
+
+## Troubleshooting
+
+**"Module not found":** Install dependencies with `pip install -r requirements.txt`
+
+**"Insufficient data":** Use at least 2 years of data for training
+
+**"Model not found":** Train a model first using training scripts
+
+**News not working:** Set `OPENAI_API_KEY` in `.env`
+
+For complete documentation, see main `README.md` in project root.

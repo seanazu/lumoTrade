@@ -1,9 +1,11 @@
 """
-Training: Walk-forward validation and panel model training.
+Training: Walk-forward validation and ultimate trainer.
 """
 
 from .validator import create_walk_forward_folds, WalkForwardSplitter
-from .trainer import train_panel_models
+from .ultimate_trainer import UltimateTrainer
 
-__all__ = ['create_walk_forward_folds', 'WalkForwardSplitter', 'train_panel_models']
+# Create singleton instance
+ultimate_trainer = UltimateTrainer()
 
+__all__ = ['create_walk_forward_folds', 'WalkForwardSplitter', 'UltimateTrainer', 'ultimate_trainer']
