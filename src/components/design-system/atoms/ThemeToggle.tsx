@@ -1,42 +1,46 @@
 "use client";
 
-import { useState, useEffect, type FC } from "react";
-import { Moon, Sun } from "lucide-react";
-import { useThemeStore } from "@/lib/zustand/themeStore";
-import { Button } from "./Button";
+import { useTheme } from '@/contexts/ThemeContext';
+import { Moon, Sun } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-const ThemeToggle: FC = () => {
-  const { theme, toggleTheme } = useThemeStore();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    // Apply theme to document
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [theme]);
-
-  if (!mounted) return null;
+export function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <Button
-      variant="ghost"
-      size="icon"
+    <motion.button
       onClick={toggleTheme}
-      className="relative"
+      className="relative p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >
-      {theme === "dark" ? (
-        <Sun className="h-5 w-5" />
-      ) : (
-        <Moon className="h-5 w-5" />
-      )}
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+      <div className="relative w-5 h-5">
+        <motion.div
+          initial={false}
+          animate={{
+            scale: theme === 'light' ? 1 : 0,
+            opacity: theme === 'light' ? 1 : 0,
+            rotate: theme === 'light' ? 0 : 180,
+          }}
+          transition={{ duration: 0.2 }}
+          className="absolute inset-0"
+        >
+          <Sun className="w-5 h-5 text-yellow-500" />
+        </motion.div>
+        <motion.div
+          initial={false}
+          animate={{
+            scale: theme === 'dark' ? 1 : 0,
+            opacity: theme === 'dark' ? 1 : 0,
+            rotate: theme === 'dark' ? 0 : -180,
+          }}
+          transition={{ duration: 0.2 }}
+          className="absolute inset-0"
+        >
+          <Moon className="w-5 h-5 text-blue-400" />
+        </motion.div>
+      </div>
+    </motion.button>
   );
-};
-
-export { ThemeToggle };
-
+}

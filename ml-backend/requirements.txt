@@ -18,3 +18,8 @@ requests==2.31.0
 httpx==0.25.2
 pytz==2023.3  # mlflow<2024 requirement
 
+# ULTIMATE V2 Dependencies (for 80%+ returns optimization)
+xgboost==2.0.3  # Ensemble models
+optuna==3.5.0  # Hyperparameter optimization (optional)
+yfinance==0.2.36  # Enhanced market data
+
