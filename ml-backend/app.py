@@ -1,6 +1,6 @@
 """
-LumoTrade ML Backend - Clean FastAPI Application
-Production-grade quantitative trading ML system
+LumoTrade ML Backend - Production Trading System
+ML-powered market direction prediction with adaptive trading strategy
 """
 import os
 from dotenv import load_dotenv
@@ -10,16 +10,17 @@ load_dotenv()
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from config import MODEL_CONFIG, API_CONFIG
+from config import API_CONFIG
 
 # Import route modules
-from src.api import health, prediction, backtest, models_info, training_ultimate
+from src.api import health
+from src.api.trading import router as trading_router
 
 # Create FastAPI application
 app = FastAPI(
-    title="LumoTrade ML Backend",
-    version="4.0.0 OPTIMIZED",
-    description="Production-grade quantitative trading ML system optimized for 80%+ annual returns with 50 core features: Research-backed feature selection, VIX, market breadth, momentum, sentiment, and smart money signals. Reduced overfitting, 70% faster training, targeting 65-70% direction accuracy.",
+    title="LumoTrade Production API",
+    version="6.0.0",
+    description="Production ML model for market direction prediction with adaptive trading strategy. 64% accuracy, 80.8% on high-confidence trades.",
     docs_url="/docs",
     redoc_url="/redoc"
 )
@@ -37,32 +38,33 @@ app.add_middleware(
 
 # Register route modules
 app.include_router(health.router, tags=["Health"])
-app.include_router(training_ultimate.router, tags=["Training"])
-app.include_router(prediction.router, tags=["Prediction"])
-app.include_router(backtest.router, tags=["Backtest"])
-app.include_router(models_info.router, tags=["Model Info"])
+app.include_router(trading_router, prefix="", tags=["Trading"])
 
 # Startup event
 @app.on_event("startup")
 async def startup_event():
     """Initialize services on startup"""
     print("=" * 60)
-    print("LumoTrade ML Backend Starting...")
+    print("LumoTrade Production API Starting...")
     print("=" * 60)
     print(f"Version: {app.version}")
     print(f"Environment: {os.getenv('ENVIRONMENT', 'development')}")
-    print(f"FMP API: {'✓ Configured' if os.getenv('FMP_API_KEY') else '✗ Not set'}")
-    print(f"FRED API: {'✓ Configured' if os.getenv('FRED_API_KEY') else '✗ Not set'}")
-    print(f"InstantDB: {'✓ Configured' if os.getenv('INSTANT_APP_ID') else '✗ Not set'}")
+    print(f"EODHD API: {'✓ Configured' if os.getenv('EODHD_API_KEY') else '✗ Not set'}")
+    print(f"Supabase: {'✓ Configured' if os.getenv('SUPABASE_URL') else '✗ Not set'}")
     print("=" * 60)
-    print("New Model Monitor Endpoints:")
-    print("  ✓ GET  /api/model/info       - Model metadata")
-    print("  ✓ GET  /api/model/features   - Feature catalog")
-    print("  ✓ GET  /api/model/status     - Real-time status")
-    print("  ✓ GET  /api/backtest/simulate/{ticker}/{timeframe}")
+    print("Endpoints:")
+    print("  ✓ GET  /predict/today       - Today's prediction")
+    print("  ✓ GET  /predict/history     - Prediction history")
+    print("  ✓ POST /train/trigger       - Trigger training")
+    print("  ✓ GET  /train/status        - Training status")
+    print("  ✓ GET  /trades/active       - Active trades")
+    print("  ✓ GET  /trades/history      - Trade history")
+    print("  ✓ GET  /alerts/today        - Today's alert")
+    print("  ✓ GET  /model/status        - Model status")
+    print("  ✓ GET  /model/accuracy      - Accuracy stats")
+    print("  ✓ GET  /model/features      - Feature importance")
     print("=" * 60)
     print(f"API Documentation: http://localhost:{API_CONFIG.get('port', 8000)}/docs")
-    print(f"Model Monitor: http://localhost:3000/model-monitor")
     print("=" * 60)
 
 # Shutdown event
@@ -83,4 +85,3 @@ if __name__ == "__main__":
         reload=True,
         log_level="info"
     )
-

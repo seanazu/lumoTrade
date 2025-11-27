@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Cache
+data/cache/
+data/learning_history/
+
+# Models (stored in cloud)
+models/*/
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+*.ipynb
+.ipynb_checkpoints/
+
+# CatBoost
+catboost_info/
+
+# Temporary files
+*.tmp
+*.temp
+feature_importance.csv
+optimization_log.txt
+

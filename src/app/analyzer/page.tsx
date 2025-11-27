@@ -14,6 +14,7 @@ import {
   TrendingUp, 
   Target, 
   AlertTriangle, 
+  AlertCircle,
   Bell,
   Calendar,
   Newspaper,
@@ -378,7 +379,6 @@ export default function AnalyzerPage() {
             </div>
           </div>
         }
-        sidebarContent={<Watchlist />}
         alertCount={0}
         userEmail="user@example.com"
       >
