@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 """
-Production Model Training Script
+Production Model Training Script v2.1
 
 This script trains the production model with full optimization.
 Can be run manually or triggered by Cloud Scheduler.
 
+Features:
+- 200+ Optuna optimization trials for best hyperparameters
+- Regime-aware training (High VIX, Normal, Low VIX)
+- SKEW index and VIX term structure features
+- Sentiment integration from EODHD
+
 Usage:
-    python training/train_production.py [--trials 100]
+    python training/train_production.py [--trials 200]
+    python training/train_production.py --no-optimize  # Quick run
+    python training/train_production.py --quick        # 50 trials
 """
 
 import os
@@ -29,8 +37,13 @@ def main():
     parser.add_argument(
         '--trials', 
         type=int, 
-        default=100,
-        help='Number of Optuna optimization trials (default: 100)'
+        default=150,
+        help='Number of Optuna optimization trials (default: 150)'
+    )
+    parser.add_argument(
+        '--quick',
+        action='store_true',
+        help='Quick training with 50 trials'
     )
     parser.add_argument(
         '--no-optimize',
@@ -43,22 +56,40 @@ def main():
         default='models/production',
         help='Path to save model (default: models/production)'
     )
+    parser.add_argument(
+        '--test-split',
+        type=str,
+        default='2024-01-01',
+        help='Date to split train/test (default: 2024-01-01)'
+    )
     
     args = parser.parse_args()
     
+    # Determine trials
+    if args.no_optimize:
+        optimize_trials = 0
+    elif args.quick:
+        optimize_trials = 50
+    else:
+        optimize_trials = args.trials
+    
     print("=" * 70)
-    print("PRODUCTION MODEL TRAINING")
+    print("PRODUCTION MODEL TRAINING v2.1")
     print("=" * 70)
     print(f"Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"Optimization trials: {args.trials if not args.no_optimize else 0}")
+    print(f"Optimization trials: {optimize_trials}")
+    print(f"Test split date: {args.test_split}")
     print("=" * 70)
+    print()
     
     # Initialize model
     model = ProductionModel()
     
     # Train
-    optimize_trials = 0 if args.no_optimize else args.trials
-    results = model.train(optimize_trials=optimize_trials)
+    results = model.train(
+        optimize_trials=optimize_trials,
+        test_split=args.test_split
+    )
     
     # Save
     model.save(args.save_path)
@@ -71,9 +102,9 @@ def main():
     print("=" * 70)
     print("TRAINING COMPLETE")
     print("=" * 70)
-    print(f"Accuracy: {results['accuracy']:.1%}")
+    print(f"Overall Accuracy: {results['accuracy']:.1%}")
     print(f"Threshold: {results['threshold']:.2f}")
-    print(f"Weights: LGB={results['weights'][0]:.2f}, CAT={results['weights'][1]:.2f}, XGB={results['weights'][2]:.2f}")
+    print(f"Weights: LGB={results['weights'][0]:.2f}, CAT={results['weights'][1]:.2f}, XGB={results['weights'][2]:.2f}, GB={results['weights'][3]:.2f}")
     print(f"Features: {results['features']}")
     print(f"Train samples: {results['train_samples']}")
     print(f"Test samples: {results['test_samples']}")
@@ -83,6 +114,13 @@ def main():
     for conf, data in results.get('high_confidence', {}).items():
         print(f"  {conf}+ confidence: {data['accuracy']:.1%} ({data['trades']} trades)")
     
+    print()
+    print("Regime Performance:")
+    for regime, data in results.get('regime_accuracy', {}).items():
+        print(f"  {regime}: {data['accuracy']:.1%} ({data['days']} days)")
+    
+    print()
+    print(f"Expected Annual Return: {results['annual_return']:.1f}%")
     print()
     print(f"Model saved to: {args.save_path}/")
     print("=" * 70)
@@ -100,6 +138,8 @@ def main():
     print(f"  Direction: {prediction['direction']}")
     print(f"  Confidence: {prediction['confidence']:.1%}")
     print(f"  Signal: {prediction['trade_signal']}")
+    print(f"  Position Size: {prediction['position_size']:.0%}")
+    print(f"  Regime: {prediction['regime']['type']} (VIX: {prediction['regime']['vix']:.1f})")
     print("=" * 70)
     
     return 0
