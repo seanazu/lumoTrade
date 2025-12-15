@@ -11,15 +11,15 @@ import { fmpClient } from "@/lib/api/clients/fmp-client";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-interface RouteParams {
-  params: {
+interface RouteContext {
+  params: Promise<{
     symbol: string;
-  };
+  }>;
 }
 
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(request: NextRequest, context: RouteContext) {
   try {
-    const { symbol } = params;
+    const { symbol } = await context.params;
 
     if (!symbol) {
       return NextResponse.json(

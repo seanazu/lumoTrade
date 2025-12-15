@@ -1,9 +1,8 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, MessageSquare, Sparkles } from "lucide-react";
-import { useChat } from "@ai-sdk/react";
 import { ChatMessage } from "./ChatMessage";
 import { ChatInput } from "./ChatInput";
 import { Button } from "@/components/design-system/atoms/Button";
@@ -13,11 +12,20 @@ export interface AIChatPanelProps {
   onClose: () => void;
 }
 
+interface LocalMessage {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+}
+
+const createMessageId = () =>
+  typeof crypto !== "undefined" && crypto.randomUUID
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
 export const AIChatPanel: React.FC<AIChatPanelProps> = ({ isOpen, onClose }) => {
-  const { messages, input, handleInputChange, handleSubmit, isLoading, setInput } =
-    useChat({
-      api: "/api/chat",
-    });
+  const [messages, setMessages] = useState<LocalMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -27,10 +35,28 @@ export const AIChatPanel: React.FC<AIChatPanelProps> = ({ isOpen, onClose }) => 
   }, [messages]);
 
   const handleSend = (message: string) => {
-    setInput(message);
-    // Trigger form submission
-    const form = new Event("submit", { bubbles: true, cancelable: true });
-    handleSubmit(form as any);
+    if (!message.trim()) return;
+    
+    const userMessage: LocalMessage = {
+      id: createMessageId(),
+      role: "user",
+      content: message,
+    };
+    setMessages((prev) => [...prev, userMessage]);
+    setIsLoading(true);
+    
+    // Placeholder assistant response while API integration is being upgraded
+    setTimeout(() => {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: createMessageId(),
+          role: "assistant",
+          content: "⚠️ AI chat is being upgraded to the new AI SDK. For now, use the analyzer page or dashboard insights for market guidance.",
+        },
+      ]);
+      setIsLoading(false);
+    }, 600);
   };
 
   return (
@@ -116,7 +142,7 @@ export const AIChatPanel: React.FC<AIChatPanelProps> = ({ isOpen, onClose }) => 
                   {messages.map((message) => (
                     <ChatMessage
                       key={message.id}
-                      role={message.role as "user" | "assistant"}
+                      role={message.role}
                       content={message.content}
                     />
                   ))}

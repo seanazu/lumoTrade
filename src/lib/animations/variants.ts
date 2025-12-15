@@ -228,12 +228,15 @@ export const chartLineVariants = {
 
 // Confetti-like success animation
 export const successBurst = {
-  scale: [0, 1.5, 1],
-  rotate: [0, 360],
-  opacity: [0, 1, 1],
-  transition: {
-    duration: 0.8,
-    ease: "easeOut",
+  hidden: { scale: 0.8, rotate: 0, opacity: 0 },
+  visible: {
+    scale: [1, 1.1, 1],
+    rotate: 360,
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+    },
   },
 };
 

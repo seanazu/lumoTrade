@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, type FC } from "react";
+import { useState, type FC } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FolderPlus,
@@ -16,7 +16,6 @@ import { useWatchlistStore } from "@/lib/zustand/watchlistStore";
 import { WatchlistStockItem } from "./WatchlistStockItem";
 import { Button } from "@/components/design-system/atoms/Button";
 import { Input } from "@/components/design-system/atoms/Input";
-import { ShareButton } from "@/components/modules/share/ShareButton";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 export const Watchlist: FC = () => {
@@ -35,7 +34,6 @@ export const Watchlist: FC = () => {
   const [editingFolder, setEditingFolder] = useState<string | null>(null);
   const [newFolderName, setNewFolderName] = useState("");
   const [showNewFolderInput, setShowNewFolderInput] = useState(false);
-  const watchlistRef = useRef<HTMLDivElement>(null);
 
   const toggleFolder = (folderId: string) => {
     setExpandedFolders((prev) => {
@@ -65,18 +63,12 @@ export const Watchlist: FC = () => {
   };
 
   return (
-    <div ref={watchlistRef} className="h-full flex flex-col bg-background">
+    <div className="h-full flex flex-col bg-background">
       {/* Header */}
       <div className="p-4 border-b border-border">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold">Watchlist</h2>
           <div className="flex items-center gap-2">
-            <ShareButton
-              elementRef={watchlistRef}
-              filename="my-watchlist"
-              twitterText="Check out my watchlist on @LumoTrade 📈"
-              className="h-8"
-            />
             <Button
               size="sm"
               variant="ghost"

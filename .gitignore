@@ -35,7 +35,16 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# documentation (keep only README.md, GUIDE.md, and SETUP_AND_RUN.md)
+# documentation archives
+docs/archive/
+*.md.archive
+
+# Keep only essential docs
+!README.md
+!PRODUCTION_GUIDE.md
+!DEPLOYMENT.md
+
+# documentation (keep only README.md, PRODUCTION_GUIDE.md, and DEPLOYMENT.md)
 *_SETUP.md
 *_SUMMARY.md
 *_STATUS.md

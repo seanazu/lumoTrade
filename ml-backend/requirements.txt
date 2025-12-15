@@ -1,25 +1,29 @@
-fastapi==0.109.0
-uvicorn[standard]==0.27.0
-pandas==2.2.0
-numpy==1.26.3
-scikit-learn==1.4.0
-lightgbm==4.0.0  # latest wheel for macOS arm64/py3.10
-ta==0.11.0
-mlflow==2.10.0
-psycopg2-binary==2.9.9
-sqlalchemy==2.0.25
-redis==5.0.1
-pydantic==2.5.3
+# Core Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
 python-dotenv==1.0.0
-openai>=1.54.0  # Supports Responses API with web_search tool
-schedule==1.2.0
-scipy==1.12.0
+pydantic==2.5.0
+
+# Data Processing
+pandas==2.1.3
+numpy==1.26.2
+pyarrow==14.0.1
+
+# Machine Learning
+scikit-learn==1.3.2
+lightgbm==4.1.0
+xgboost==2.0.2
+catboost==1.2.2
+optuna==3.4.0
+
+# Financial Data
+yfinance==0.2.32
 requests==2.31.0
-httpx==0.25.2
-pytz==2023.3  # mlflow<2024 requirement
+aiohttp==3.9.1
 
-# ULTIMATE V2 Dependencies (for 80%+ returns optimization)
-xgboost==2.0.3  # Ensemble models
-optuna==3.5.0  # Hyperparameter optimization (optional)
-yfinance==0.2.36  # Enhanced market data
+# Database
+supabase==2.0.3
 
+# Utilities
+python-multipart==0.0.6
+joblib==1.3.2

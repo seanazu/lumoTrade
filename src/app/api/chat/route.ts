@@ -13,10 +13,10 @@ export async function POST(req: Request) {
       model: openai("chatgpt-5.1"),
       system: SYSTEM_PROMPT,
       messages: convertToCoreMessages(messages),
-      maxTokens: 1000,
+      maxOutputTokens: 1000,
     });
 
-    return result.toDataStreamResponse();
+    return result.toTextStreamResponse();
   } catch (error) {
     console.error("Chat API Error:", error);
     return new Response(
